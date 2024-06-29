@@ -104,9 +104,46 @@ async function addWorkspace(req, res, next) {
 	ok200(res);
 }
 
+async function history(req, res, next) {
+	const bookings = await bookingModel
+		.find({ is_active: 1 })
+		.populate('amenities.id')
+		.populate('workspace_id')
+		.populate('room_id')
+		.populate('user_id');
+	ok200(res, bookings);
+}
+
+async function roomHistory(req, res, next) {
+	const { roomId } = req.params;
+	if (!isValidObjectId(roomId)) throw new CustomError('Bad Request!', 400);
+
+	const room = await roomModel.findOne({ _id: roomId }).populate('workspace_id');
+	if (!room || room.workspace_id?.is_active != 1) throw new CustomError('Invalid RoomId', 400);
+
+	const { date } = req.body;
+	const dateString = new Date(date).toLocaleDateString();
+	const booking = await bookingModel.find({ room_id: roomId, date: dateString, is_active: 1 });
+
+	const response = [];
+
+	for (let i = room.workspace_id.timing.from; i < room.workspace_id.timing.to; i++) {
+		let available = true;
+		booking.forEach((ele) => {
+			if (available && i >= ele.timing.from && i + 1 <= ele.timing.to) {
+				available = false;
+			}
+		});
+		response.push({ time: { from: i, to: i + 1 }, available });
+	}
+	ok200(res, response);
+}
+
 module.exports = {
 	dashboard,
 	getWorkspaces,
 	getWorkspace,
 	addWorkspace,
+	history,
+	roomHistory,
 };
