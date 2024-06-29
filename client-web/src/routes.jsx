@@ -8,7 +8,6 @@ import Register from './pages/Register';
 import Workspace from './pages/admin/Workspace';
 import AddWorkSpace from './pages/admin/AddWorksapce';
 import WorkspaceDetail from './pages/admin/WorkspaceDetail';
-import WorkspaceDetail from './pages/admin/WorkspaceDetail';
 import UserDashboard from './pages/user/UserDashboard';
 const routes = createBrowserRouter([
 	{
