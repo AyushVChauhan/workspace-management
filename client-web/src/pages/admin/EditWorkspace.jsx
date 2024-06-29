@@ -24,6 +24,7 @@ const EditWorkspace = () => {
 
 	const getData = async () => {
 		const result = await fetchGet('admin/workspace/edit/' + workspaceId, localStorage.getItem('token'));
+		console.log(result);
 		if (result.success) {
 			setItems(result.data.workspace);
 			setRooms(result.data.rooms);
@@ -140,7 +141,7 @@ const EditWorkspace = () => {
 			<Toast ref={toast} />
 			<div className="px-10">
 				<div className="flex justify-between items-center">
-					<div className="text-4xl font-bold">Add Workspace</div>
+					<div className="text-4xl font-bold">Edit Workspace</div>
 				</div>
 
 				<form onSubmit={handleSubmit}>
@@ -154,6 +155,7 @@ const EditWorkspace = () => {
 							placeholder="Workspace Title"
 							className="border rounded-md px-3 py-2 mt-1 w-full focus:outline-none focus:ring focus:border-blue-300"
 							onChange={(e) => setItems((prev) => ({ ...prev, title: e.target.value }))}
+							value={items.title}
 						/>
 						<label htmlFor={`address`} className="block text-sm font-bold text-gray-600">
 							Address
@@ -164,6 +166,7 @@ const EditWorkspace = () => {
 							placeholder="Address"
 							className="border rounded-md px-3 py-2 mt-1 w-full focus:outline-none focus:ring focus:border-blue-300"
 							onChange={(e) => setItems((prev) => ({ ...prev, address: e.target.value }))}
+							value={items.address}
 						/>
 						<label htmlFor={`description`} className="block text-sm font-bold text-gray-600">
 							Description
@@ -174,6 +177,7 @@ const EditWorkspace = () => {
 							placeholder="Description"
 							className="border rounded-md px-3 py-2 mt-1 w-full focus:outline-none focus:ring focus:border-blue-300"
 							onChange={(e) => setItems((prev) => ({ ...prev, description: e.target.value }))}
+							value={items.description}
 						/>
 						<label htmlFor={`timing`} className="block text-sm font-bold text-gray-600">
 							Timing
@@ -186,6 +190,7 @@ const EditWorkspace = () => {
 									placeholder="From (hours)"
 									className="border rounded-md px-3 py-2 mt-1 w-full focus:outline-none focus:ring focus:border-blue-300"
 									onChange={(e) => setItems((prev) => ({ ...prev, from: e.target.value }))}
+									value={items.from}
 								/>
 							</div>
 							<div className="w-full">
@@ -195,6 +200,7 @@ const EditWorkspace = () => {
 									placeholder="To (hours)"
 									className="border rounded-md px-3 py-2 mt-1 w-full focus:outline-none focus:ring focus:border-blue-300"
 									onChange={(e) => setItems((prev) => ({ ...prev, to: e.target.value }))}
+									value={items.to}
 								/>
 							</div>
 						</div>
@@ -220,6 +226,7 @@ const EditWorkspace = () => {
 								placeholder="Label"
 								className="border rounded-md px-3 py-2 mt-1 w-full focus:outline-none focus:ring focus:border-blue-300"
 								onChange={(e) => handleChange(index, e, 'room')}
+								value={room.label}
 							/>
 							<label
 								htmlFor={`roomdescription-${index}`}
@@ -233,6 +240,7 @@ const EditWorkspace = () => {
 								placeholder="Description"
 								className="border rounded-md px-3 py-2 mt-1 w-full focus:outline-none focus:ring focus:border-blue-300"
 								onChange={(e) => handleChange(index, e, 'room')}
+								value={room.description}
 							/>
 							<label htmlFor={`roomprice-${index}`} className="block text-sm font-bold text-gray-600">
 								Price
@@ -243,6 +251,7 @@ const EditWorkspace = () => {
 								placeholder="Price"
 								className="border rounded-md px-3 py-2 mt-1 w-full focus:outline-none focus:ring focus:border-blue-300"
 								onChange={(e) => handleChange(index, e, 'room')}
+								value={room.price}
 							/>
 							<label htmlFor={`roomimage-${index}`} className="block text-sm font-bold text-gray-600">
 								Room Image
@@ -271,6 +280,7 @@ const EditWorkspace = () => {
 								placeholder="Name"
 								className="border rounded-md px-3 py-2 mt-1 w-full focus:outline-none focus:ring focus:border-blue-300"
 								onChange={(e) => handleChange(index, e, 'amenity')}
+								value={amenity.name}
 							/>
 							<label
 								htmlFor={`amenitiesdescription-${index}`}
@@ -284,6 +294,7 @@ const EditWorkspace = () => {
 								placeholder="Description"
 								className="border rounded-md px-3 py-2 mt-1 w-full focus:outline-none focus:ring focus:border-blue-300"
 								onChange={(e) => handleChange(index, e, 'amenity')}
+								value={amenity.description}
 							/>
 							<label
 								htmlFor={`amenitiesprice-${index}`}
@@ -297,6 +308,7 @@ const EditWorkspace = () => {
 								placeholder="Price"
 								className="border rounded-md px-3 py-2 mt-1 w-full focus:outline-none focus:ring focus:border-blue-300"
 								onChange={(e) => handleChange(index, e, 'amenity')}
+								value={amenity.price}
 							/>
 							<label
 								htmlFor={`amenitiesquantity-${index}`}
@@ -310,6 +322,7 @@ const EditWorkspace = () => {
 								placeholder="quantity"
 								className="border rounded-md px-3 py-2 mt-1 w-full focus:outline-none focus:ring focus:border-blue-300"
 								onChange={(e) => handleChange(index, e, 'amenity')}
+								value={amenity.quantity}
 							/>
 							<label htmlFor={`amenityimage-${index}`} className="block text-sm font-bold text-gray-600">
 								Amenity Image

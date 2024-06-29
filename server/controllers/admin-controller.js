@@ -158,6 +158,8 @@ async function getWorkspaceEdit(req, res, next) {
 		title: workspace.name,
 		from: workspace.timing.from,
 		to: workspace.timing.to,
+		address: workspace.address,
+		description: workspace.description,
 	};
 	const roomData = workspace.rooms.map((ele) => ({
 		label: ele.label,
