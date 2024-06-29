@@ -1,10 +1,16 @@
 import React from 'react';
 import { Rating } from 'primereact/rating';
+import { useNavigate } from 'react-router-dom';
 const WorkspaceCard = ({ detail }) => {
-	console.log(detail);
+	const navigate = useNavigate();
 	return (
 		<>
-			<div className="p-3 py-4 cursor-pointer shadow-md gap-10 rounded-xl justify-center items-center flex  flex-col  w-full">
+			<div
+				onClick={() => {
+					navigate(`/admin/workspace/${detail._id}`);
+				}}
+				className="p-3 py-4 cursor-pointer shadow-md gap-10 rounded-xl justify-center items-center flex  flex-col  w-full"
+			>
 				<div className="flex justify-evenly w-full items-center">
 					<div className="flex-shrink-0">
 						<img src="/vite.svg" className="w-60 h-60 p-4 object-contain" alt="Workspace Image" />

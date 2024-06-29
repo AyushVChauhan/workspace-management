@@ -35,7 +35,7 @@ const Workspace = () => {
 			</div>
 			<div className="gap-10 p-11 flex w-full flex-col justify-center items-center">
 				{workspace.map((ele) => (
-					<WorkspaceCard key={ele.id} detail={ele} />
+					<WorkspaceCard key={ele._id} detail={ele} />
 				))}
 			</div>
 		</div>
