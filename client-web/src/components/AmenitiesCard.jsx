@@ -7,7 +7,7 @@ const AmenitiesCard = ({ amenitie }) => {
 			<img src="/vite.svg" className="rounded-md h-24 w-24 object-cover"></img>
 			<div className="ml-5 flex flex-col justify-between w-full overflow-hidden">
 				<div>
-					<div className="text-darkBlue font-bold text-xl text-center">{amenitie.label}</div>
+					<div className="text-darkBlue font-bold text-xl">{amenitie.label}</div>
 					<div className="mt-2 text-darkBlue font-semibold text-sm text-justify break-words">
 						<Rating value={amenitie.rating} readOnly cancel={false} className="p-rating-item" />
 					</div>
