@@ -149,12 +149,15 @@ const WorkspaceDetail = () => {
 			<div className="flex justify-between items-center">
 				<div className="text-4xl ml-20 font-bold">{workspace.name}</div>
 			</div>
-			<TabMenu
-				model={items}
-				activeIndex={activeIndex}
-				onTabChange={(e) => setActiveIndex(e.index)}
-				className="mt-10 ml-20 custom-tab-menu text-xl font-bold shadow-lg rounded-lg w-[90%]"
-			/>
+
+			{role == 'admin' && (
+				<TabMenu
+					model={items}
+					activeIndex={activeIndex}
+					onTabChange={(e) => setActiveIndex(e.index)}
+					className="mt-10 ml-20 custom-tab-menu text-xl font-bold shadow-lg rounded-lg w-[90%]"
+				/>
+			)}
 
 			{activeIndex === 0 && (
 				<div>
