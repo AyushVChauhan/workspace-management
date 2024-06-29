@@ -15,7 +15,8 @@ router.get('/workspace', asyncRouteHandler(getWorkspaces));
 router.get('/workspace/:id', asyncRouteHandler(getWorkspace));
 router.post(
 	'/workspace',
-	upload.fields([{ name: 'workspaceImage' }, { name: 'rooms[][image]' }, { name: 'amenities[][image]' }]),
+	// upload.fields([{ name: 'workspaceImage' }, { name: 'rooms' }, { name: 'amenities' }]),
+	upload.any(),
 	asyncRouteHandler(addWorkspace)
 );
 
