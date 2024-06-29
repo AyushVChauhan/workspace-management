@@ -1,33 +1,43 @@
 import Datatable from '../../components/Datatable';
 import { FaTrash } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { fetchGet } from '../../utils/fetch-utils';
 function RoomStatus() {
+	const role = localStorage.getItem('role').toLowerCase();
+
+	const [data, setData] = useState();
 	const datatableArray = [
 		{ field: 'index', header: 'Sr no.' },
-		{ field: 'name', header: 'UserName' },
-		{ field: 'workspace', header: 'Workspace' },
-		{ field: 'room', header: 'Room' },
+		{ field: 'user_id.username', header: 'UserName' },
+		{ field: 'workspace_id.name', header: 'Workspace' },
+		{ field: 'room_id.label', header: 'Room' },
 		{ field: 'date', header: 'Date' },
-		{ field: 'price', header: 'Price' },
+		{ field: 'amount', header: 'Price' },
 	];
 
-	const actionArray = [
-		{
-			icon: <FaTrash className="text-red-600" />,
-			onClick: (e) => {
-				confirmFunction(e);
-			},
-		},
-	];
-	const data = [
-		{
-			'index': '1',
-			'name': 'john_doe',
-			'workspace': 'Tech Hub',
-			'room': 'Conference Room B',
-			'date': '2024-07-01',
-			'price': 60,
-		},
-	];
-	return <Datatable array={datatableArray} action={actionArray} data={data} />;
+	const getData = async () => {
+		const result = await fetchGet(`${role}/history`, localStorage.getItem('token'));
+
+		if (result.success) {
+			setData(
+				result.data.map((ele, ind) => ({
+					...ele,
+					index: ind + 1,
+				}))
+			);
+		} else {
+			navigate('/');
+		}
+	};
+	console.log(data);
+	useEffect(() => {
+		getData();
+	}, []);
+	return (
+		<>
+			<div className="text-4xl font-bold p-2">User Bookings</div>
+			<Datatable array={datatableArray} data={data} />
+		</>
+	);
 }
 export default RoomStatus;

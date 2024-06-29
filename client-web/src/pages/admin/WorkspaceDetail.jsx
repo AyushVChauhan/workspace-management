@@ -52,7 +52,6 @@ const WorkspaceDetail = () => {
 	const items = [
 		{ label: 'Basic Details', icon: 'pi pi-list', className: 'me-6' },
 		{ label: 'Booking Insights', icon: 'pi pi-chart-line', className: 'ms-3 me-3' },
-		{ label: 'Booking Insights', icon: 'pi pi-chart-line', className: 'ms-3 me-3' },
 	];
 
 	const roomStatus = () => {
@@ -149,12 +148,15 @@ const WorkspaceDetail = () => {
 			<div className="flex justify-between items-center">
 				<div className="text-4xl ml-20 font-bold">{workspace.name}</div>
 			</div>
-			<TabMenu
-				model={items}
-				activeIndex={activeIndex}
-				onTabChange={(e) => setActiveIndex(e.index)}
-				className="mt-10 ml-20 custom-tab-menu text-xl font-bold shadow-lg rounded-lg w-[90%]"
-			/>
+
+			{role == 'admin' && (
+				<TabMenu
+					model={items}
+					activeIndex={activeIndex}
+					onTabChange={(e) => setActiveIndex(e.index)}
+					className="mt-10 ml-20 custom-tab-menu text-xl font-bold shadow-lg rounded-lg w-[90%]"
+				/>
+			)}
 
 			{activeIndex === 0 && (
 				<div>
@@ -224,7 +226,6 @@ const WorkspaceDetail = () => {
 					</div>
 				</div>
 			)}
-			{activeIndex === 2 && <RoomStatusManagement />}
 		</>
 	);
 };
