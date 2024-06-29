@@ -27,7 +27,6 @@ const routes = createBrowserRouter([
 		errorElement: <ErrorElement />,
 		children: [
 			{ path: '', element: <Dashboard /> },
-			{ path: 'workspace', element: <Workspace /> },
 			{ path: 'workspace/addworkspace', element: <AddWorkSpace /> },
 			{ path: 'workspace/:id', element: <WorkspaceDetail /> },
 		],
@@ -39,6 +38,8 @@ const routes = createBrowserRouter([
 		errorElement: <ErrorElement />,
 		children: [
 			{ path: '', element: <UserDashboard /> },
+			{ path: 'workspace', element: <Workspace /> },
+			{ path: 'workspace/:id', element: <WorkspaceDetail /> },
 			//{ path: 'workspace', element: <Workspace /> },
 			// { path: 'workspace/addworkspace', element: <AddWorkSpace /> },
 		],

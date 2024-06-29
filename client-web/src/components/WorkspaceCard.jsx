@@ -2,12 +2,13 @@ import React from 'react';
 import { Rating } from 'primereact/rating';
 import { useNavigate } from 'react-router-dom';
 const WorkspaceCard = ({ detail }) => {
+	const role = localStorage.getItem('role').toLowerCase();
 	const navigate = useNavigate();
 	return (
 		<>
 			<div
 				onClick={() => {
-					navigate(`/admin/workspace/${detail._id}`);
+					navigate(`/${role}/workspace/${detail._id}`);
 				}}
 				className="p-3 py-4 cursor-pointer shadow-md gap-10 rounded-xl justify-center items-center flex  flex-col  w-full"
 			>

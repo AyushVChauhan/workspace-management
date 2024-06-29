@@ -4,12 +4,14 @@ import { Button } from 'primereact/button';
 import { fetchPost, fetchUpload } from '../../utils/fetch-utils';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
+import { redirect, useNavigate } from 'react-router-dom';
 
 const Workspace = () => {
 	const [items, setItems] = useState({ title: '', address: '', description: '', image: null, from: '', to: '' });
 	const [rooms, setRooms] = useState([{ label: '', description: '', price: '', image: null }]);
 	const [amenities, setAmenities] = useState([{ name: '', description: '', price: '', quantity: '', image: null }]);
 	const toast = useRef();
+	const navigate = useNavigate();
 	const handleChange = (index, event, type) => {
 		const { name, value, files } = event.target;
 		let newItems;
@@ -94,6 +96,7 @@ const Workspace = () => {
 					detail: 'Workspace has been added Succesfully',
 					life: 3000,
 				});
+				navigate('/workspace');
 			} else {
 				toast.current.show({
 					severity: 'info',
@@ -101,6 +104,7 @@ const Workspace = () => {
 					detail: 'There was a Technical error',
 					life: 3000,
 				});
+				navigate('/workspace');
 			}
 		} catch (error) {
 			console.error(error);
