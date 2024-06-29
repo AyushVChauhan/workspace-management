@@ -67,6 +67,40 @@ async function bookRoom(req, res, next) {
 	ok200(res);
 }
 
+async function getAmenityAvailability(req, res, next) {
+	const { roomId } = req.params;
+	if (!isValidObjectId(roomId)) throw new CustomError('Bad Request!', 400);
+
+	const { from, to } = req.body;
+	if (to <= from) throw new CustomError('To and From Invalid', 400);
+
+	const room = await roomModel.findOne({ _id: roomId, is_active: 1 }).populate('workspace_id');
+	if (!room || room.workspace_id?.is_active != 1) throw new CustomError('Invalid RoomId', 400);
+
+	const startDate = new Date(date);
+	startDate.setUTCHours(0, 0, 0, 0);
+	const endDate = new Date(date).setUTCHours(0);
+	endDate.setUTCHours(23, 59, 59, 999);
+
+	const amenities = await amenityModel.find({ workspace_id: room.workspace_id._id, is_active: 1 }).lean();
+	for (let index = 0; index < amenities.length; index++) {
+		const element = amenities[index];
+		const booking = await bookingModel.find({
+			'amenities.id': ele.id,
+			is_active: 1,
+			date: { $gt: startDate, $lt: endDate },
+		});
+		booking.forEach((ele) => {
+			//TODO to be changed
+			if (ele.timing.to < to) {
+				element.quantity--;
+			}
+		});
+		if (ele.quantity < 0) ele.quantity = 0;
+	}
+	ok200(res, amenities);
+}
+
 async function getAvailability(req, res, next) {
 	const { roomId } = req.params;
 	if (!isValidObjectId(roomId)) throw new CustomError('Bad Request!', 400);
@@ -95,4 +129,4 @@ async function getAvailability(req, res, next) {
 	ok200(res, response);
 }
 
-module.exports = { getAvailability, bookRoom };
+module.exports = { getAvailability, bookRoom, getAmenityAvailability };
