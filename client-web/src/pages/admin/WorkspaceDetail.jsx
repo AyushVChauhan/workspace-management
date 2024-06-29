@@ -15,6 +15,7 @@ const WorkspaceDetail = () => {
 	const [room, setRoom] = useState([]);
 	const [activeIndex, setActiveIndex] = useState(0);
 	const [chartData, setChartData] = useState();
+
 	const [chartOptions, setChartOptions] = useState({});
 	const [workspace, setWorkspace] = useState({
 		name: '',
@@ -65,10 +66,10 @@ const WorkspaceDetail = () => {
 
 		const documentStyle = getComputedStyle(document.documentElement);
 		const data = {
-			labels: ['ROOM1', 'SUBM', 'DISQUALIFY', 'ABSENT'],
+			labels: ['Conference Room A', 'Conference Room B'],
 			datasets: [
 				{
-					data: [pendingCount, submitCount, disqualifyCount, absent],
+					data: [pendingCount, submitCount],
 					backgroundColor: [
 						documentStyle.getPropertyValue('--yellow-500'),
 						documentStyle.getPropertyValue('--green-500'),
