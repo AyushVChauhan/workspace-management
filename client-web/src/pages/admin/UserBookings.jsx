@@ -52,14 +52,7 @@ function UserBookings() {
 			getRooms(selectedWorkspace?._id);
 		}
 	}, [selectedWorkspace]);
-	// const actionArray = [
-	// 	{
-	// 		icon: <FaTrash className="text-red-600" />,
-	// 		onClick: (e) => {
-	// 			confirmFunction(e);
-	// 		},
-	// 	},
-	// ];
+	//
 	return (
 		<>
 			<div className="flex flex-row text-4xl font-bold">

@@ -32,8 +32,6 @@ function RoomStatusManagement() {
 		);
 	};
 
-	const footer = `In total there are ${roomStatus ? roomStatus.length : 0} hours.`;
-
 	useEffect(() => {
 		setRoomStatus(staticData);
 	}, []);
@@ -79,7 +77,6 @@ function RoomStatusManagement() {
 						<div className="card">
 							<DataTable
 								value={roomStatus}
-								footer={footer}
 								tableStyle={{ minWidth: '30rem', border: '1px solid #ccc' }}
 								className="table-bordered"
 							>

@@ -4,10 +4,13 @@ import { Rating } from 'primereact/rating';
 function RoomCard({ room }) {
 	const role = localStorage.getItem('role').toLowerCase();
 	const navigate = useNavigate();
+
 	return (
 		<div
 			onClick={() => {
-				navigate(`/${role}/workspacedetails/${room._id}`);
+				if (role == 'admin') {
+					navigate(`/${role}/workspacedetails/${room._id}`);
+				}
 			}}
 			className="p-2  cursor-pointer  gap-10 rounded-xl justify-center items-center flex  flex-col  "
 		>
