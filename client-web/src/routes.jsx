@@ -6,7 +6,7 @@ import Dashboard from './pages/Dashboard';
 import ErrorElement from './components/ErrorElement';
 import Register from './pages/Register';
 import Workspace from './pages/admin/Workspace';
-//import AddWorkSpace from './pages/admin/AddWorksapce';
+import AddWorkSpace from './pages/admin/AddWorksapce';
 const routes = createBrowserRouter([
 	{
 		path: '/',
@@ -26,7 +26,7 @@ const routes = createBrowserRouter([
 		children: [
 			{ path: '', element: <Dashboard /> },
 			{ path: 'workspace', element: <Workspace /> },
-			// { path: 'workspace/addworkspace', element: <AddWorkSpace /> },
+			{ path: 'workspace/addworkspace', element: <AddWorkSpace /> },
 		],
 	},
 	{
