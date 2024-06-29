@@ -164,16 +164,18 @@ const WorkspaceDetail = () => {
 
 			{activeIndex === 0 && (
 				<div>
-					<div className="text-end my-3">
-						<Button
-							label="Edit Workspace"
-							className="bg-darkBlue p-2 text-white"
-							onClick={() => {
-								console.log(workspace);
-								navigate('/admin/workspace/edit/' + workspace._id);
-							}}
-						/>
-					</div>
+					{role == 'admin' && (
+						<div className="text-end my-3">
+							<Button
+								label="Edit Workspace"
+								className="bg-darkBlue p-2 text-white"
+								onClick={() => {
+									console.log(workspace);
+									navigate('/admin/workspace/edit/' + workspace._id);
+								}}
+							/>
+						</div>
+					)}
 					<div className="rounded-md p-5 flex flex-col w-[90%] m-14">
 						<div className="flex gap-10">
 							<div className="flex flex-col justify-center w-full overflow-hidden">
