@@ -5,9 +5,13 @@ const { CustomError } = require('../utils/router-utils');
 const amenityModel = require('../models/amenities.models');
 const roomModel = require('../models/room.models');
 const bookingModel = require('../models/bookings.models');
+const userModel = require('../models/users.models');
+const rolesConstant = require('../constants/roles.constant');
 
 async function dashboard(req, res, next) {
-	ok200(res, { count1: 100, count2: 200 });
+	const userCount = await userModel.countDocuments({ is_active: 1, role: rolesConstant.USER });
+	const workspaceCount = await workspaceModel.countDocuments({ is_active: 1 });
+	ok200(res, { userCount, workspaceCount });
 }
 
 async function getWorkspaces(req, res, next) {
@@ -123,23 +127,52 @@ async function roomHistory(req, res, next) {
 
 	const { date } = req.body;
 	const dateString = new Date(date).toLocaleDateString();
-	const booking = await bookingModel.find({ room_id: roomId, date: dateString, is_active: 1 }).populate('user_id');
-	console.log(booking, dateString);
+	const booking = await bookingModel
+		.find({ room_id: roomId, date: dateString, is_active: 1 })
+		.populate('user_id')
+		.populate('amenities.id');
 
 	const response = [];
 
 	for (let i = room.workspace_id.timing.from; i < room.workspace_id.timing.to; i++) {
 		let available = true;
 		let user = null;
+		let amenities = [];
 		booking.forEach((ele) => {
 			if (available && i >= ele.timing.from && i + 1 <= ele.timing.to) {
 				user = ele.user_id.username;
+				amenities = ele.amenities;
 				available = false;
 			}
 		});
-		response.push({ time: { from: i, to: i + 1 }, available, user });
+		response.push({ time: { from: i, to: i + 1 }, available, user, amenities });
 	}
 	ok200(res, response);
+}
+
+async function getWorkspaceEdit(req, res, next) {
+	const { id } = req.params;
+	const workspace = await workspaceModel.findOne({ _id: id }).populate('rooms').populate('amenities').lean();
+	const workspaceData = {
+		id: workspace._id,
+		title: workspace.name,
+		from: workspace.timing.from,
+		to: workspace.timing.to,
+	};
+	const roomData = workspace.rooms.map((ele) => ({
+		label: ele.label,
+		description: ele.description,
+		price: ele.price,
+		id: ele._id,
+	}));
+	const amenityData = workspace.amenities.map((ele) => ({
+		name: ele.label,
+		description: ele.description,
+		price: ele.price,
+		quantity: ele.quantity,
+		id: ele._id,
+	}));
+	ok200(res, { workspace: workspaceData, rooms: roomData, amenities: amenityData });
 }
 
 module.exports = {
@@ -149,4 +182,5 @@ module.exports = {
 	addWorkspace,
 	history,
 	roomHistory,
+	getWorkspaceEdit,
 };
