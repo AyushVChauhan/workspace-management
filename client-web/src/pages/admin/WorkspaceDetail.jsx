@@ -14,9 +14,10 @@ const WorkspaceDetail = () => {
 	const role = localStorage.getItem('role').toLowerCase();
 	const [room, setRoom] = useState([]);
 	const [activeIndex, setActiveIndex] = useState(0);
-	const [chartData, setChartData] = useState();
-
-	const [chartOptions, setChartOptions] = useState({});
+	const [roomChartData, setRoomChartData] = useState();
+	const [roomChartOptions, setRoomChartOptions] = useState({});
+	const [amenitiesChartData, setAmenitiesChartData] = useState();
+	const [amenitiesChartOptions, setAmenitiesChartOptions] = useState({});
 	const [workspace, setWorkspace] = useState({
 		name: '',
 		address: '',
@@ -60,29 +61,23 @@ const WorkspaceDetail = () => {
 	];
 
 	const roomStatus = () => {
-		const totalStudents = 50;
-		let submitCount = 10;
-		let pendingCount = 20;
-		let disqualifyCount = 3;
-		let absent = 12;
+		const totalRooms = 100; // Example total, adjust as necessary
+		const bookedCount = 60;
+		const availableCount = 40;
 
 		const documentStyle = getComputedStyle(document.documentElement);
 		const data = {
-			labels: ['Conference Room A', 'Conference Room B'],
+			labels: ['conference room A', 'meeting room'],
 			datasets: [
 				{
-					data: [pendingCount, submitCount],
+					data: [bookedCount, availableCount],
 					backgroundColor: [
 						documentStyle.getPropertyValue('--yellow-500'),
 						documentStyle.getPropertyValue('--green-500'),
-						documentStyle.getPropertyValue('--red-500'),
-						documentStyle.getPropertyValue('--gray-500'),
 					],
 					hoverBackgroundColor: [
 						documentStyle.getPropertyValue('--yellow-400'),
 						documentStyle.getPropertyValue('--green-400'),
-						documentStyle.getPropertyValue('--red-400'),
-						documentStyle.getPropertyValue('--gray-400'),
 					],
 				},
 			],
@@ -95,7 +90,7 @@ const WorkspaceDetail = () => {
 							let label =
 								context.formattedValue +
 								' (' +
-								((context.formattedValue / totalStudents) * 100).toFixed(2) +
+								((context.formattedValue / totalRooms) * 100).toFixed(2) +
 								' %)';
 							return label;
 						},
@@ -127,7 +122,7 @@ const WorkspaceDetail = () => {
 						weight: 'bold',
 					},
 					formatter: (value) => {
-						const percent = ((value / totalStudents) * 100).toFixed(2);
+						const percent = ((value / totalRooms) * 100).toFixed(2);
 						return value !== 0 && percent > 0 ? `${percent}%` : '';
 					},
 				},
@@ -136,16 +131,92 @@ const WorkspaceDetail = () => {
 			maintainAspectRatio: false,
 		};
 
-		setChartData(data);
-		setChartOptions(options);
+		setRoomChartData(data);
+		setRoomChartOptions(options);
 	};
-	console.log(workspace.image);
+
+	const amenitiesStatus = () => {
+		const totalAmenities = 10; // Example total, adjust as necessary
+		const usedCount = 2;
+		const unusedCount = 3;
+		const cnt = 1;
+
+		const documentStyle = getComputedStyle(document.documentElement);
+		const data = {
+			labels: ['Projector', 'Coffee machine', 'Desk'],
+			datasets: [
+				{
+					data: [usedCount, unusedCount, cnt],
+					backgroundColor: [
+						documentStyle.getPropertyValue('--blue-500'),
+						documentStyle.getPropertyValue('--gray-500'),
+						documentStyle.getPropertyValue('--yellow-500'),
+					],
+					hoverBackgroundColor: [
+						documentStyle.getPropertyValue('--blue-400'),
+						documentStyle.getPropertyValue('--gray-400'),
+						documentStyle.getPropertyValue('--yellow-400'),
+					],
+				},
+			],
+		};
+		const options = {
+			plugins: {
+				tooltip: {
+					callbacks: {
+						label: function (context) {
+							let label =
+								context.formattedValue + ' (' + (context.formattedValue / totalAmenities) * 10 + ' )';
+							return label;
+						},
+					},
+				},
+				title: {
+					color: '#000',
+					display: true,
+					text: 'Amenities used',
+					font: {
+						size: 20,
+					},
+					padding: {
+						bottom: 20,
+					},
+				},
+				legend: {
+					labels: {
+						usePointStyle: true,
+					},
+					position: 'bottom',
+				},
+				datalabels: {
+					color: '#fff',
+					anchor: 'end',
+					align: 'start',
+					font: {
+						size: 14,
+						weight: 'bold',
+					},
+					formatter: (value) => {
+						const percent = (value / totalAmenities) * 10;
+						return value !== 0 && percent > 0 ? `${percent}` : '';
+					},
+				},
+			},
+			responsive: true,
+			maintainAspectRatio: false,
+		};
+
+		setAmenitiesChartData(data);
+		setAmenitiesChartOptions(options);
+	};
+
 	useEffect(() => {
 		getRooms();
 	}, [id]);
 
 	useEffect(() => {
 		roomStatus();
+		amenitiesStatus();
 	}, []);
 
 	return (
@@ -154,7 +225,7 @@ const WorkspaceDetail = () => {
 				<div className="text-4xl font-bold">{workspace.name}</div>
 			</div>
 
-			{role == 'admin' && (
+			{role === 'admin' && (
 				<TabMenu
 					model={items}
 					activeIndex={activeIndex}
@@ -165,7 +236,7 @@ const WorkspaceDetail = () => {
 
 			{activeIndex === 0 && (
 				<div>
-					{role == 'admin' && (
+					{role === 'admin' && (
 						<div className="text-end my-3">
 							<Button
 								label="Edit Workspace"
@@ -226,22 +297,22 @@ const WorkspaceDetail = () => {
 			{activeIndex === 1 && (
 				<div className="flex justify-center my-5 space-x-10">
 					<div className="bg-white p-5 shadow-gray-300 shadow-[3px_3px_10px_3px] rounded-md w-[90%] md:w-[40%]">
-						{chartData && (
+						{roomChartData && (
 							<Chart
 								type="pie"
-								data={chartData}
-								options={chartOptions}
+								data={roomChartData}
+								options={roomChartOptions}
 								plugins={[ChartDataLabels]}
 								className="w-full"
 							/>
 						)}
 					</div>
 					<div className="bg-white p-5 shadow-gray-300 shadow-[3px_3px_10px_3px] rounded-md w-[90%] md:w-[40%]">
-						{chartData && (
+						{amenitiesChartData && (
 							<Chart
 								type="pie"
-								data={chartData}
-								options={chartOptions}
+								data={amenitiesChartData}
+								options={amenitiesChartOptions}
 								plugins={[ChartDataLabels]}
 								className="w-full"
 							/>
