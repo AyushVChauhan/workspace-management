@@ -3,7 +3,7 @@ import { fetchPost } from '../utils/fetch-utils';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
 
-const roles = ['STUDENT', 'TEACHER', 'DEPARTMENT-HEAD', 'INSTITUTE-HEAD', 'ADMIN'];
+const roles = ['USER', 'ADMIN'];
 
 function Login() {
 	const [role, setRole] = useState(roles[0]);
@@ -15,6 +15,7 @@ function Login() {
 	const login = async () => {
 		setLoading(true);
 		const result = await fetchPost('login', '', JSON.stringify({ role, password, username }));
+		console.log(result);
 		setLoading(false);
 		if (result.success) {
 			setError('');

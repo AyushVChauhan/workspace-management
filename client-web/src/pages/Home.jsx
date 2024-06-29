@@ -36,7 +36,13 @@ function Home() {
 					name: 'Logout',
 				},
 			],
-			'USER': [],
+			'USER': [
+				{
+					to: '/user',
+					iconClass: <MdSpaceDashboard />,
+					name: 'Dashboard',
+				},
+			],
 		};
 	}, []);
 
