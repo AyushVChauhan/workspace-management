@@ -24,7 +24,7 @@ const routes = createBrowserRouter([
 		errorElement: <ErrorElement />,
 		children: [
 			{ path: '', element: <Dashboard /> },
-			{ path: '/workspace', element: <Workspace /> },
+			{ path: 'workspace', element: <Workspace /> },
 		],
 	},
 	{
