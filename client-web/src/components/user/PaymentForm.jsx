@@ -1,4 +1,5 @@
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { Button } from 'primereact/button';
 import { useState } from 'react';
 
 function PaymentForm() {
@@ -27,12 +28,15 @@ function PaymentForm() {
 		<form onSubmit={handleSubmit}>
 			<div>
 				<div>
-					<h1>Complete your payment here!</h1>
+					<h1 className="text-darkBlue text-2xl mb-10 font-medium   ">Complete your payment here!</h1>
 					<PaymentElement />
 					<div>
-						<button disabled={isLoading || !stripe || !elements}>
+						<Button
+							className="bg-darkBlue text-white font-semibold mt-6  p-2"
+							disabled={isLoading || !stripe || !elements}
+						>
 							{isLoading ? 'Loading...' : 'Pay now'}
-						</button>
+						</Button>
 					</div>
 					{message && <div>{message}</div>}
 				</div>
