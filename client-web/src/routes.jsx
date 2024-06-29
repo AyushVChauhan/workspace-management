@@ -11,6 +11,8 @@ import WorkspaceDetail from './pages/admin/WorkspaceDetail';
 import UserDashboard from './pages/user/UserDashboard';
 import UserBookings from './pages/admin/UserBookings';
 import History from './pages/user/History';
+import RoomStatusManagement from './pages/admin/RoomStatusManagement';
+import RoomStatus from './pages/admin/RoomStatus';
 import RoomBooking from './pages/user/RoomBooking';
 const routes = createBrowserRouter([
 	{
@@ -34,6 +36,8 @@ const routes = createBrowserRouter([
 			{ path: 'workspace/addworkspace', element: <AddWorkSpace /> },
 			{ path: 'workspace/:id', element: <WorkspaceDetail /> },
 			{ path: 'userbooking', element: <UserBookings /> },
+			{ path: 'workspacedetails/:id', element: <RoomStatusManagement /> },
+			{ path: 'roomstatus', element: <RoomStatus /> },
 		],
 	},
 	{

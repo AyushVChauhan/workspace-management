@@ -28,6 +28,11 @@ function Home() {
 				{
 					to: '/admin/userbooking',
 					iconClass: <FaHistory />,
+					name: 'Room Status',
+				},
+				{
+					to: '/admin/roomstatus',
+					iconClass: <FaHistory />,
 					name: 'User Bookings',
 				},
 				{
