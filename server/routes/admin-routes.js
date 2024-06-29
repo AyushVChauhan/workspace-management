@@ -19,7 +19,7 @@ router.get('/verify', asyncRouteHandler(verify));
 router.get('/dashboard', asyncRouteHandler(dashboard));
 
 router.get('/history', asyncRouteHandler(history));
-router.get('/history/room/:roomId', asyncRouteHandler(roomHistory));
+router.post('/history/room/:roomId', asyncRouteHandler(roomHistory));
 
 router.get('/workspace', asyncRouteHandler(getWorkspaces));
 router.get('/workspace/:id', asyncRouteHandler(getWorkspace));
