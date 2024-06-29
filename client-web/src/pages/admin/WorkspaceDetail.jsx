@@ -7,7 +7,7 @@ import AmenitiesCard from '../../components/AmenitiesCard';
 import { TabMenu } from 'primereact/tabmenu';
 import { Chart } from 'primereact/chart';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import RoomStatusManagement from './RoomStatusManagement';
+import { Button } from 'primereact/button';
 
 const WorkspaceDetail = () => {
 	const { id } = useParams();
@@ -26,6 +26,7 @@ const WorkspaceDetail = () => {
 		timeFrom: '',
 		timeTo: '',
 		image: [],
+		_id: '',
 	});
 	const navigate = useNavigate();
 
@@ -43,6 +44,7 @@ const WorkspaceDetail = () => {
 					timeFrom: result.data.timing.from,
 					timeTo: result.data.timing.to,
 					image: result.data.images,
+					_id: result.data._id,
 				});
 			} else {
 				navigate('/');
@@ -149,7 +151,7 @@ const WorkspaceDetail = () => {
 	return (
 		<>
 			<div className="flex justify-between items-center">
-				<div className="text-4xl ml-20 font-bold">{workspace.name}</div>
+				<div className="text-4xl font-bold">{workspace.name}</div>
 			</div>
 
 			{role == 'admin' && (
@@ -157,12 +159,22 @@ const WorkspaceDetail = () => {
 					model={items}
 					activeIndex={activeIndex}
 					onTabChange={(e) => setActiveIndex(e.index)}
-					className="mt-10 ml-20 custom-tab-menu text-xl font-bold shadow-lg rounded-lg w-[90%]"
+					className="mt-10 custom-tab-menu text-xl font-bold shadow-lg rounded-lg"
 				/>
 			)}
 
 			{activeIndex === 0 && (
 				<div>
+					<div className="text-end my-3">
+						<Button
+							label="Edit Workspace"
+							className="bg-darkBlue p-2 text-white"
+							onClick={() => {
+								console.log(workspace);
+								navigate('/admin/workspace/edit/' + workspace._id);
+							}}
+						/>
+					</div>
 					<div className="rounded-md p-5 flex flex-col w-[90%] m-14">
 						<div className="flex gap-10">
 							<div className="flex flex-col justify-center w-full overflow-hidden">

@@ -1,30 +1,16 @@
 import { Calendar } from 'primereact/calendar';
-import { fetchGet, fetchPost } from '../../utils/fetch-utils';
+import { fetchPost } from '../../utils/fetch-utils';
 import { useEffect, useState } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Tag } from 'primereact/tag';
-import { Button } from 'primereact/button';
 import { useParams } from 'react-router-dom';
 function RoomStatusManagement() {
 	const [selectedDate, setSelectedDate] = useState(new Date());
-	const [roomStatus, setRoomStatus] = useState([]);
 	const { id } = useParams();
 	const [data, setData] = useState();
 	const role = localStorage.getItem('role').toLowerCase();
 
-	//const formattedDate = date.toISOString().split('T')[0];
-	// const staticData = [
-	// 	{ hour: '09:00 AM', status: 'Booked by tan' },
-	// 	{ hour: '10:00 AM', status: 'Booked by tan' },
-	// 	{ hour: '11:00 AM', status: 'Not Booked' },
-	// 	{ hour: '12:00 PM', status: 'Booked by tan' },
-	// 	{ hour: '01:00 PM', status: 'Not Booked' },
-	// 	{ hour: '02:00 PM', status: 'Booked by tan' },
-	// 	{ hour: '03:00 PM', status: 'Not Booked' },
-	// 	{ hour: '04:00 PM', status: 'Booked by tan' },
-	// 	{ hour: '05:00 PM', status: 'Not Booked' },
-	// ];
 	const statusBodyTemplate = (rowData) => {
 		return (
 			<Tag
@@ -46,10 +32,12 @@ function RoomStatusManagement() {
 				result.data.map((ele) => ({
 					hour: `${ele.time.from}.00 - ${ele.time.to}.00`,
 					status: ele.available ? 'Not Booked' : 'Booked by ' + ele.user,
+					amenityStatus:
+						ele.amenities.length == 0
+							? 'None'
+							: ele.amenities.map((am) => `${am.id.label} - x${am.quantity}`).join(', '),
 				}))
 			);
-		} else {
-			navigate('/');
 		}
 	};
 	console.log(data);
@@ -85,14 +73,12 @@ function RoomStatusManagement() {
 							<DataTable
 								value={data}
 								tableStyle={{ minWidth: '30rem', border: '1px solid #ccc' }}
-								className="table-bordered"
+								className="border border-collapse"
+								stripedRows
 							>
-								<Column
-									field="hour"
-									header="Hour"
-									style={{ width: '50%', borderRight: '1px solid #ccc' }}
-								></Column>
-								<Column header="Status" body={statusBodyTemplate} style={{ width: '50%' }}></Column>
+								<Column field="hour" header="Hour"></Column>
+								<Column header="Status" body={statusBodyTemplate}></Column>
+								<Column field="amenityStatus" header="Amenities"></Column>
 							</DataTable>
 						</div>
 					</div>

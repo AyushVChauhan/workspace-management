@@ -181,7 +181,8 @@ async function history(req, res, next) {
 		.find({ is_active: 1, user_id: userId })
 		.populate('amenities.id')
 		.populate('workspace_id')
-		.populate('room_id');
+		.populate('room_id')
+		.sort({ createdAt: 1 });
 	ok200(res, bookings);
 }
 

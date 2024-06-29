@@ -22,12 +22,12 @@ function Dashboard() {
 				'ADMIN': [
 					{
 						label: 'Workspaces',
-						count: result.data.count1,
+						count: result.data.workspaceCount,
 						iconClass: <BsPersonWorkspace size={25} />,
 					},
 					{
 						label: 'Users',
-						count: result.data.count2,
+						count: result.data.userCount,
 						iconClass: <FaUser size={25} />,
 					},
 				],
