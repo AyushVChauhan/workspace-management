@@ -14,7 +14,11 @@ const WorkspaceCard = ({ detail }) => {
 			>
 				<div className="flex justify-evenly w-full items-center">
 					<div className="flex-shrink-0">
-						<img src="/vite.svg" className="w-60 h-60 p-4 object-contain" alt="Workspace Image" />
+						<img
+							src={`/${detail.images[0]}`}
+							className="w-60 h-60 p-4 object-contain"
+							alt="Workspace Image"
+						/>
 					</div>
 					<div className="overflow-hidden gap-5 flex flex-col ">
 						<span className=" text-3xl font-semibold text-darkBlue">{detail.name}</span>

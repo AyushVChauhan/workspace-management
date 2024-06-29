@@ -26,9 +26,9 @@ function Home() {
 					name: 'Workspaces',
 				},
 				{
-					to: '/admin/history',
+					to: '/admin/userbooking',
 					iconClass: <FaHistory />,
-					name: 'History',
+					name: 'User Bookings',
 				},
 				{
 					to: '/',
@@ -41,6 +41,11 @@ function Home() {
 					to: '/user',
 					iconClass: <MdSpaceDashboard />,
 					name: 'Dashboard',
+				},
+				{
+					to: '/user/history',
+					iconClass: <FaHistory />,
+					name: 'History',
 				},
 			],
 		};

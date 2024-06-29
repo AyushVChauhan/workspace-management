@@ -96,7 +96,7 @@ const Workspace = () => {
 					detail: 'Workspace has been added Succesfully',
 					life: 3000,
 				});
-				navigate('/workspace');
+				navigate('/admin/workspace');
 			} else {
 				toast.current.show({
 					severity: 'info',
@@ -104,7 +104,7 @@ const Workspace = () => {
 					detail: 'There was a Technical error',
 					life: 3000,
 				});
-				navigate('/workspace');
+				navigate('/admin/workspace');
 			}
 		} catch (error) {
 			console.error(error);
