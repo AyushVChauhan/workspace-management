@@ -5,6 +5,8 @@ const bookingModel = require('../models/bookings.models');
 const amenityModel = require('../models/amenities.models');
 const { ok200 } = require('../utils/response-utils');
 const stripe = require('../utils/stripe-utils');
+const userModel = require('../models/users.models');
+const { sendMail } = require('../utils/mail-utils');
 
 async function bookRoom(req, res, next) {
 	//amenities = [{id:, quantity:,}]
@@ -154,6 +156,21 @@ async function paymentConfirm(req, res, next) {
 		booking.is_active = 1;
 		booking.payment_status = 'SUCCESS';
 		await booking.save();
+		const newBooking = await bookingModel
+			.findOne({ _id: booking.id })
+			.populate('user_id')
+			.populate('workspace_id')
+			.populate('room_id')
+			.populate('amenities.id');
+		let message = `<p>You have successfully booked the ${newBooking.room_id.label} room in workspace ${newBooking.workspace_id.name} for date ${newBooking.date} </br> from ${newBooking.timing.from}.00 to ${newBooking.timing.to}.00 </p>`;
+		if (newBooking.amenities.length) {
+			message += '<ul>';
+			newBooking.amenities.forEach((ele) => {
+				message += `<li>${ele.id.label} - x${ele.quantity} = ${ele.id.price * ele.quantity}$</li>`;
+			});
+			message += '</ul>';
+		}
+		await sendMail(newBooking.user_id.email, 'BOOKING SUCCESSFUL', message);
 	}
 	res.redirect('http://localhost:5173');
 }
