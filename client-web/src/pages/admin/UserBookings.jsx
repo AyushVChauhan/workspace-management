@@ -30,14 +30,7 @@ function UserBookings() {
 	useEffect(() => {
 		getWorkspace();
 	}, []);
-	const datatableArray = [
-		{ field: 'index', header: 'Sr no.' },
-		{ field: 'name', header: 'UserName' },
-		{ field: 'workspace', header: 'Workspace' },
-		{ field: 'room', header: 'Room' },
-		{ field: 'date', header: 'Date' },
-		{ field: 'price', header: 'Price' },
-	];
+
 	const getRooms = async (id) => {
 		const result = await fetchGet(`${role}/workspace/${id}`, localStorage.getItem('token'));
 		if (result.success) {
@@ -78,8 +71,6 @@ function UserBookings() {
 					<RoomCard key={ele._id} room={ele} />
 				))}
 			</div>
-
-			{/* <Datatable data={data} array={datatableArray} /> */}
 		</>
 	);
 }
