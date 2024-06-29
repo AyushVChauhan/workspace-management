@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import ErrorElement from './components/ErrorElement';
 import Register from './pages/Register';
+import Workspace from './pages/admin/Workspace';
 const routes = createBrowserRouter([
 	{
 		path: '/',
@@ -21,7 +22,10 @@ const routes = createBrowserRouter([
 		element: <Home />,
 		loader: verifyLoader,
 		errorElement: <ErrorElement />,
-		children: [{ path: '', element: <Dashboard /> }],
+		children: [
+			{ path: '', element: <Dashboard /> },
+			{ path: '/workspace', element: <Workspace /> },
+		],
 	},
 	{
 		path: '*',
