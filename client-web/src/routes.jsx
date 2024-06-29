@@ -7,6 +7,7 @@ import ErrorElement from './components/ErrorElement';
 import Register from './pages/Register';
 import Workspace from './pages/admin/Workspace';
 import AddWorkSpace from './pages/admin/AddWorksapce';
+import WorkspaceDetail from './pages/admin/WorkspaceDetail';
 const routes = createBrowserRouter([
 	{
 		path: '/',

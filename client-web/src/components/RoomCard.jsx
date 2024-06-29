@@ -11,7 +11,6 @@ function RoomCard({ room }) {
 					<div className="mt-2 text-darkBlue font-bold text-lg">Price: {room.price}</div>
 					<div className="mt-2 text-darkBlue font-bold text-lg">Ratings: {room.rating}</div>
 				</div>
-				<Button className="bg-darkBlue text-white font-bold py-2 px-4 rounded mt-4 self-end">+ Book</Button>
 			</div>
 		</div>
 	);
