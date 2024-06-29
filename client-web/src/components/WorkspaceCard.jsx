@@ -1,18 +1,25 @@
 import React from 'react';
-
+import { Rating } from 'primereact/rating';
 const WorkspaceCard = () => {
 	return (
-		<div className="text-white p-3 py-4 bg-[#34aae0] cursor-pointer m-2 rounded-xl justify-center self-center flex  gap-5 items-center flex-col ">
-			<img
-				src={user && user.image}
-				className="w-[8rem] self-center justify-center align-middle flex items-center "
-			/>
-			<div className="">
-				<div>`Name: nknefk`</div>
-				<div>`Age: lsdn,ns`</div>
-				<div>Gender: mfnmf`</div>
+		<>
+			<div className="p-3 py-4 cursor-pointer shadow-md gap-10 rounded-xl justify-center items-center flex  flex-col  w-full">
+				<div className="flex justify-evenly w-full items-center">
+					<div className="flex-shrink-0">
+						<img src="/vite.svg" className="w-60 h-60 p-4 object-contain" alt="Workspace Image" />
+					</div>
+					<div className="overflow-hidden gap-5 flex flex-col ">
+						<span className=" text-3xl font-semibold text-darkBlue">Title</span>
+						<span className=" text-xl text-ellipsis text-darkBlue   overflow-hidden whitespace-nowrap">
+							this is address jjjjjjjjjjjjjjjjjjjjjjddddddddddddddddddddddd
+						</span>
+						<span className="">
+							<Rating value={3.5} readOnly cancel={false} className="p-rating-item" />
+						</span>
+					</div>
+				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 
