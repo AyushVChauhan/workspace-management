@@ -3,15 +3,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Header from '../components/Header';
 import SideBarLink from '../components/SidebarLink';
 import { Outlet } from 'react-router-dom';
-import { MdGroups, MdSpaceDashboard } from 'react-icons/md';
-import { FaSchool, FaBook } from 'react-icons/fa';
-import { PiChalkboardTeacherFill, PiStudentFill } from 'react-icons/pi';
-import { MdOutlineMenuBook } from 'react-icons/md';
-import { BiBookContent, BiLogOut } from 'react-icons/bi';
-import { FaFileCircleQuestion } from 'react-icons/fa6';
-import { PiExamFill } from 'react-icons/pi';
-import { TbCalendarTime } from 'react-icons/tb';
-import { LuCalendarCheck2, LuHistory } from 'react-icons/lu';
+import { MdSpaceDashboard } from 'react-icons/md';
+import { FaHistory } from 'react-icons/fa';
+import { BsPersonWorkspace } from 'react-icons/bs';
+import { BiLogOut } from 'react-icons/bi';
 import { Toast } from 'primereact/toast';
 function Home() {
 	const [sideBar, setSideBar] = useState(window.innerWidth > 768);
@@ -19,140 +14,21 @@ function Home() {
 	const toast = useRef(null);
 	const sideBarLinks = useMemo(() => {
 		return {
-			ADMIN: [
+			'ADMIN': [
 				{
 					to: '/admin',
 					iconClass: <MdSpaceDashboard />,
 					name: 'Dashboard',
 				},
 				{
-					to: '/admin/institutes',
-					iconClass: <FaSchool />,
-					name: 'Institutes',
+					to: '/admin/workspace',
+					iconClass: <BsPersonWorkspace />,
+					name: 'Workspaces',
 				},
 				{
-					to: '/',
-					iconClass: <BiLogOut />,
-					name: 'Logout',
-				},
-			],
-			'INSTITUTE-HEAD': [
-				{
-					to: '/institute-head',
-					iconClass: <MdSpaceDashboard />,
-					name: 'Dashboard',
-				},
-				{
-					to: '/institute-head/department',
-					iconClass: <FaSchool />,
-					name: 'Departments',
-				},
-				{
-					to: '/institute-head/teacher',
-					iconClass: <PiChalkboardTeacherFill />,
-					name: 'Teachers',
-				},
-				{
-					to: '/institute-head/student',
-					iconClass: <PiChalkboardTeacherFill />,
-					name: 'Students',
-				},
-				{
-					to: '/institute-head/subject',
-					iconClass: <MdOutlineMenuBook />,
-					name: 'Subjects',
-				},
-				{
-					to: '/',
-					iconClass: <BiLogOut />,
-					name: 'Logout',
-				},
-			],
-			'DEPARTMENT-HEAD': [
-				{
-					to: '/department-head',
-					iconClass: <MdSpaceDashboard />,
-					name: 'Dashboard',
-				},
-				{
-					to: '/department-head/students',
-					iconClass: <PiStudentFill />,
-					name: 'Students',
-				},
-				{
-					to: '/department-head/groups',
-					iconClass: <MdGroups />,
-					name: 'Groups',
-				},
-				{
-					to: '/',
-					iconClass: <BiLogOut />,
-					name: 'Logout',
-				},
-			],
-			'TEACHER': [
-				{
-					to: '/teacher',
-					iconClass: <MdSpaceDashboard />,
-					name: 'Dashboard',
-				},
-				// {
-				// 	to: '/teacher/students',
-				// 	iconClass: <PiStudentFill />,
-				// 	name: 'Students',
-				// },
-				{
-					to: '/teacher/modules',
-					iconClass: <FaBook />,
-					name: 'Modules',
-				},
-				{
-					to: '/teacher/topics',
-					iconClass: <BiBookContent />,
-					name: 'Topics',
-					end: false,
-				},
-				{
-					to: '/teacher/questions',
-					iconClass: <FaFileCircleQuestion />,
-					name: 'Questions',
-					end: false,
-				},
-				{
-					to: '/teacher/quiz',
-					iconClass: <PiExamFill />,
-					name: 'Quizzes',
-					end: false,
-				},
-				{
-					to: '/',
-					iconClass: <BiLogOut />,
-					name: 'Logout',
-				},
-			],
-			'STUDENT': [
-				{
-					to: '/student',
-					iconClass: <MdSpaceDashboard />,
-					name: 'Dashboard',
-				},
-
-				{
-					to: '/student/upcomingQuiz',
-					iconClass: <TbCalendarTime />,
-					name: 'Upcoming Quiz',
-				},
-				{
-					to: '/student/availableQuiz',
-					iconClass: <LuCalendarCheck2 />,
-					name: 'Available Quiz',
-					end: false,
-				},
-				{
-					to: '/student/history',
-					iconClass: <LuHistory />,
+					to: '/admin/history',
+					iconClass: <FaHistory />,
 					name: 'History',
-					end: false,
 				},
 				{
 					to: '/',
@@ -160,6 +36,7 @@ function Home() {
 					name: 'Logout',
 				},
 			],
+			'USER': [],
 		};
 	}, []);
 
@@ -167,19 +44,6 @@ function Home() {
 		val ? setSideBar(val) : setSideBar((prev) => !prev);
 	}
 	useEffect(() => {
-		window.onoffline = () => {
-			// console.log('offline');
-			toast.current.show({
-				severity: 'error',
-				summary: 'Connection issue',
-				detail: 'It looks like you are offline!!',
-				sticky: true,
-			});
-		};
-		window.ononline = () => {
-			toast.current.clear();
-		};
-
 		window.onresize = () => {
 			setWidth(window.innerWidth);
 			if (window.innerWidth > 768) setSideBar(true);
@@ -187,8 +51,6 @@ function Home() {
 		};
 		return () => {
 			window.onresize = () => {};
-			window.onoffline = () => {};
-			window.ononline = () => {};
 		};
 	}, [toast]);
 

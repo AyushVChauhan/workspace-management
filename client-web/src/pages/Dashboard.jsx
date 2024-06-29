@@ -4,13 +4,10 @@ import { fetchGet } from '../utils/fetch-utils';
 import { useEffect, useState } from 'react';
 import Loading from '../components/Loading';
 
-import { FaChalkboardTeacher, FaRegCalendarCheck, FaRegCalendarPlus, FaSchool } from 'react-icons/fa';
-import { PiChalkboardTeacherFill, PiStudentBold } from 'react-icons/pi';
-import { MdOutlineMenuBook } from 'react-icons/md';
+import { FaUser } from 'react-icons/fa';
+import { BsPersonWorkspace } from 'react-icons/bs';
 
 import CountCard from '../components/Dashboard/CountCard';
-import { LuCalendarCheck2, LuCalendarClock } from 'react-icons/lu';
-import { TbCalendarTime } from 'react-icons/tb';
 
 function Dashboard() {
 	const role = localStorage.getItem('role').toLowerCase();
@@ -24,90 +21,17 @@ function Dashboard() {
 			let data = {
 				'ADMIN': [
 					{
-						label: 'Institutes',
+						label: 'Workspaces',
 						count: result.data.count1,
-						iconClass: <FaSchool size={25} />,
+						iconClass: <BsPersonWorkspace size={25} />,
 					},
 					{
-						label: 'Teachers',
+						label: 'Users',
 						count: result.data.count2,
-						iconClass: <FaChalkboardTeacher size={25} />,
-					},
-					{
-						label: 'Students',
-						count: 300,
-						iconClass: <PiStudentBold size={25} />,
-					},
-					{
-						label: 'Quiz Given',
-						count: 50,
-						iconClass: <FaSchool size={25} />,
-					},
-					{
-						label: 'Quiz Pending',
-						count: 70,
-						iconClass: <FaSchool size={25} />,
+						iconClass: <FaUser size={25} />,
 					},
 				],
-				'INSTITUTE-HEAD': [
-					{
-						label: 'Departments',
-						count: result.data.departmentCount,
-						iconClass: <FaSchool size={25}></FaSchool>,
-					},
-					{
-						label: 'Teachers',
-						count: result.data.teacherCount,
-						iconClass: <PiChalkboardTeacherFill size={25}></PiChalkboardTeacherFill>,
-					},
-					{
-						label: 'Subjects',
-						count: result.data.subjectCount,
-						iconClass: <MdOutlineMenuBook size={25} />,
-					},
-				],
-				'DEPARTMENT-HEAD': [
-					{
-						label: 'Students',
-						count: result.data.students,
-						iconClass: <FaSchool size={25} />,
-					},
-				],
-				'TEACHER': [
-					{
-						label: 'Completed Quiz',
-						count: result.data.completedQuizCount,
-						iconClass: <FaRegCalendarCheck size={25} />,
-					},
-					{
-						label: 'Available Quiz',
-						count: result.data.availableQuizCount,
-						iconClass: <FaRegCalendarPlus size={25} />,
-					},
-					{
-						label: 'Upcoming Quiz',
-						count: result.data.upcomingQuizCount,
-						iconClass: <LuCalendarClock size={25} />,
-					},
-
-					{
-						label: 'Subjects',
-						count: result.data.subjectCount,
-						iconClass: <FaSchool size={25} />,
-					},
-				],
-				'STUDENT': [
-					{
-						label: 'Upcoming Quiz',
-						count: result.data.upcomingQuiz,
-						iconClass: <TbCalendarTime size={25} />,
-					},
-					{
-						label: 'Available Quiz',
-						count: result.data.availableQuiz,
-						iconClass: <LuCalendarCheck2 size={25} />,
-					},
-				],
+				'USER': [],
 			};
 			setCount(data);
 		} else {
