@@ -107,7 +107,7 @@ function Datatable({ data, array, action = [], onRowClick = () => {}, extraCompo
 					data-pr-tooltip="XLS"
 					className="rounded-md flex items-center space-x-1"
 				>
-					<span>Export</span>
+					<span className="text-green-700 font-bold">Export</span>
 				</Button>
 			</div>
 			<div className="w-full rounded-lg overflow-hidden mt-5">
@@ -157,7 +157,7 @@ function Datatable({ data, array, action = [], onRowClick = () => {}, extraCompo
 							);
 						}
 					})}
-					{action.length && (
+					{action.length >= 1 && (
 						<Column
 							headerStyle={headerStyle}
 							bodyStyle={cellStyle}

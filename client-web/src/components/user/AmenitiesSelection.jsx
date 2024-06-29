@@ -52,12 +52,15 @@ function AmenitiesSelection({ roomId, timing, date, next, roomPrice }) {
 		<div>
 			{items.map((item) => (
 				<div key={item.label} style={{ marginBottom: '10px' }}>
-					<span>
+					<span className="text-darkBlue text-xl ">
 						{item.label} - ${item.price}
 					</span>
+					<span className="text-darkBlue ml-12 text-xl  ">Quantity</span>
 					<InputText
 						type="number"
 						min="0"
+						defaultValue={0}
+						className="py-1"
 						max={item.quantity}
 						value={selectedQuantities[item._id] || ''}
 						onChange={(e) => handleQuantityChange(item._id, e)}
