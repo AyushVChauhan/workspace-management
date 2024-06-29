@@ -15,7 +15,7 @@ const WorkspaceCard = ({ detail }) => {
 				<div className="flex justify-evenly w-full items-center">
 					<div className="flex-shrink-0">
 						<img
-							src={`/${detail.images[0]}`}
+							src={`${import.meta.env.VITE_URL}/${detail.images[0]}`}
 							className="w-60 h-60 p-4 object-contain"
 							alt="Workspace Image"
 						/>

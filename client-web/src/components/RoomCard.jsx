@@ -4,7 +4,7 @@ import { Rating } from 'primereact/rating';
 function RoomCard({ room }) {
 	const role = localStorage.getItem('role').toLowerCase();
 	const navigate = useNavigate();
-
+	console.log(room);
 	return (
 		<div
 			onClick={() => {
@@ -14,8 +14,11 @@ function RoomCard({ room }) {
 			}}
 			className="p-2  cursor-pointer  gap-10 rounded-xl justify-center items-center flex  flex-col  "
 		>
-			<div className="bg-white shadow-lg rounded-md ms-10 p-5 flex w-80 overflow-hidden">
-				<img src="/vite.svg" className="rounded-md h-24 w-24 object-cover"></img>
+			<div className="bg-white shadow-lg rounded-md ms-10 p-5 flex w-96 h-64 overflow-hidden">
+				<img
+					src={`${import.meta.env.VITE_URL}uploads/${room.image}`}
+					className="rounded-md h-24 w-24 object-cover"
+				></img>
 				<div className="ml-5 flex flex-col justify-between w-full overflow-hidden">
 					<div>
 						<div className="text-darkBlue font-bold text-xl text-center">{room.label}</div>

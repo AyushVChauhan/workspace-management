@@ -91,7 +91,7 @@ function Header({ toggleSidebar }) {
 			<div className="absolute left-5 block md:hidden cursor-pointer" onClick={toggleSidebar}>
 				<GiHamburgerMenu size={25} />
 			</div>
-			<div className="text-3xl text-black font-bold md:mx-5 cursor-pointer">Odoo</div>
+			<div className="text-3xl text-black font-bold md:mx-5 cursor-pointer">Workspace Management</div>
 
 			<div className="absolute right-5">
 				<a className="flex flex-row items-center cursor-pointer" onClick={(e) => menuLeft.current.toggle(e)}>

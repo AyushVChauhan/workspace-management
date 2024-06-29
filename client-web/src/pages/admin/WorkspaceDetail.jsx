@@ -7,7 +7,7 @@ import AmenitiesCard from '../../components/AmenitiesCard';
 import { TabMenu } from 'primereact/tabmenu';
 import { Chart } from 'primereact/chart';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import RoomStatusManagement from './RoomStatusManagement';
+import { Button } from 'primereact/button';
 
 const WorkspaceDetail = () => {
 	const { id } = useParams();
@@ -15,6 +15,7 @@ const WorkspaceDetail = () => {
 	const [room, setRoom] = useState([]);
 	const [activeIndex, setActiveIndex] = useState(0);
 	const [chartData, setChartData] = useState();
+
 	const [chartOptions, setChartOptions] = useState({});
 	const [workspace, setWorkspace] = useState({
 		name: '',
@@ -24,6 +25,8 @@ const WorkspaceDetail = () => {
 		amenities: [],
 		timeFrom: '',
 		timeTo: '',
+		image: [],
+		_id: '',
 	});
 	const navigate = useNavigate();
 
@@ -37,9 +40,11 @@ const WorkspaceDetail = () => {
 					address: result.data.address,
 					rating: result.data.rating,
 					description: result.data.description,
-					amenities: result.data.amenities || [], // Initialize amenities as an empty array if undefined
+					amenities: result.data.amenities || [],
 					timeFrom: result.data.timing.from,
 					timeTo: result.data.timing.to,
+					image: result.data.images,
+					_id: result.data._id,
 				});
 			} else {
 				navigate('/');
@@ -63,10 +68,10 @@ const WorkspaceDetail = () => {
 
 		const documentStyle = getComputedStyle(document.documentElement);
 		const data = {
-			labels: ['ROOM1', 'SUBM', 'DISQUALIFY', 'ABSENT'],
+			labels: ['Conference Room A', 'Conference Room B'],
 			datasets: [
 				{
-					data: [pendingCount, submitCount, disqualifyCount, absent],
+					data: [pendingCount, submitCount],
 					backgroundColor: [
 						documentStyle.getPropertyValue('--yellow-500'),
 						documentStyle.getPropertyValue('--green-500'),
@@ -134,7 +139,7 @@ const WorkspaceDetail = () => {
 		setChartData(data);
 		setChartOptions(options);
 	};
-
+	console.log(workspace.image);
 	useEffect(() => {
 		getRooms();
 	}, [id]);
@@ -146,7 +151,7 @@ const WorkspaceDetail = () => {
 	return (
 		<>
 			<div className="flex justify-between items-center">
-				<div className="text-4xl ml-20 font-bold">{workspace.name}</div>
+				<div className="text-4xl font-bold">{workspace.name}</div>
 			</div>
 
 			{role == 'admin' && (
@@ -154,12 +159,24 @@ const WorkspaceDetail = () => {
 					model={items}
 					activeIndex={activeIndex}
 					onTabChange={(e) => setActiveIndex(e.index)}
-					className="mt-10 ml-20 custom-tab-menu text-xl font-bold shadow-lg rounded-lg w-[90%]"
+					className="mt-10 custom-tab-menu text-xl font-bold shadow-lg rounded-lg"
 				/>
 			)}
 
 			{activeIndex === 0 && (
 				<div>
+					{role == 'admin' && (
+						<div className="text-end my-3">
+							<Button
+								label="Edit Workspace"
+								className="bg-darkBlue p-2 text-white"
+								onClick={() => {
+									console.log(workspace);
+									navigate('/admin/workspace/edit/' + workspace._id);
+								}}
+							/>
+						</div>
+					)}
 					<div className="rounded-md p-5 flex flex-col w-[90%] m-14">
 						<div className="flex gap-10">
 							<div className="flex flex-col justify-center w-full overflow-hidden">
@@ -177,7 +194,13 @@ const WorkspaceDetail = () => {
 								<div className="mt-2 text-darkBlue text-xl">{workspace.description}</div>
 								<div className="mt-2 text-darkBlue text-xl">{`From: ${workspace.timeFrom}:00am to ${workspace.timeTo}:00pm`}</div>
 							</div>
-							<img src="/vite.svg" className="rounded-md h-60 w-60 object-cover" alt="Workspace Image" />
+							{workspace && (
+								<img
+									src={`${import.meta.env.VITE_URL}/${workspace.image}`}
+									className="rounded-md h-60 w-60 object-cover"
+									alt="Workspace Image"
+								/>
+							)}
 						</div>
 					</div>
 
