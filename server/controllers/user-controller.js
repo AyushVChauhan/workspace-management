@@ -1,4 +1,4 @@
-const { isValidObjectId } = require('mongoose');
+const { isValidObjectId, default: mongoose } = require('mongoose');
 const { CustomError } = require('../utils/router-utils');
 const roomModel = require('../models/room.models');
 const bookingModel = require('../models/bookings.models');
@@ -40,7 +40,31 @@ async function bookRoom(req, res, next) {
 			is_active: 1,
 			date: { $gt: startDate, $lt: endDate },
 		});
+		let totalAmenity = amenity.quantity;
+		booking.forEach((ele) => {
+			//TODO to be changed
+			if (ele.timing.to < to) {
+				totalAmenity--;
+			}
+		});
+		if (ele.quantity > totalAmenity) throw new CustomError(`Amenity ${ele.id} is out of range`);
+		amount += ele.quantity * amenity.price * (to - from);
 	}
+
+	const newBooking = new bookingModel({
+		amenities: amenities.map((ele) => ({ ...ele, id: new mongoose.Types.ObjectId(ele.id) })),
+		amount,
+		date,
+		is_active: 1,
+		room_id: new mongoose.Types.ObjectId(roomId),
+		timing: { from, to },
+		user_id: new mongoose.Types.ObjectId(res.locals.userData._id),
+		workspace_id: room.workspace_id._id,
+	});
+
+	await newBooking.save();
+
+	ok200(res);
 }
 
 async function getAvailability(req, res, next) {
