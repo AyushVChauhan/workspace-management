@@ -24,6 +24,7 @@ const WorkspaceDetail = () => {
 		amenities: [],
 		timeFrom: '',
 		timeTo: '',
+		image: [],
 	});
 	const navigate = useNavigate();
 
@@ -37,9 +38,10 @@ const WorkspaceDetail = () => {
 					address: result.data.address,
 					rating: result.data.rating,
 					description: result.data.description,
-					amenities: result.data.amenities || [], // Initialize amenities as an empty array if undefined
+					amenities: result.data.amenities || [],
 					timeFrom: result.data.timing.from,
 					timeTo: result.data.timing.to,
+					image: result.data.images,
 				});
 			} else {
 				navigate('/');
@@ -135,7 +137,7 @@ const WorkspaceDetail = () => {
 		setChartData(data);
 		setChartOptions(options);
 	};
-
+	console.log(workspace.image);
 	useEffect(() => {
 		getRooms();
 	}, [id]);
@@ -178,7 +180,13 @@ const WorkspaceDetail = () => {
 								<div className="mt-2 text-darkBlue text-xl">{workspace.description}</div>
 								<div className="mt-2 text-darkBlue text-xl">{`From: ${workspace.timeFrom}:00am to ${workspace.timeTo}:00pm`}</div>
 							</div>
-							<img src="/vite.svg" className="rounded-md h-60 w-60 object-cover" alt="Workspace Image" />
+							{workspace && (
+								<img
+									src={`${import.meta.env.VITE_URL}/${workspace.image}`}
+									className="rounded-md h-60 w-60 object-cover"
+									alt="Workspace Image"
+								/>
+							)}
 						</div>
 					</div>
 
