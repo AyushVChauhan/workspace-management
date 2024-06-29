@@ -8,7 +8,7 @@ function UserDashboard() {
 			<div className="w-4/5 max-w-xl mt-2">
 				<span className="p-input-icon-left w-full">
 					<i className="ps-4 pi pi-search" />
-					<InputText className="w-full p-2 rounded-full text-lg" placeholder="Search..." />
+					<InputText className="ps-10 w-full p-2 rounded-full text-lg" placeholder="Search..." />
 				</span>
 			</div>
 		</div>
