@@ -7,7 +7,7 @@ const roomSchema = new mongoose.Schema(
 		image: { type: String, trim: true, required: true },
 		price: { type: Number, required: true },
 		is_active: { type: Number, default: 1 },
-
+		description: { type: String, trim: true, required: true },
 		rating: Number,
 	},
 	{ timestamps: true }
