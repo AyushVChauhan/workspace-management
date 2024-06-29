@@ -2,15 +2,13 @@ import { Rating } from 'primereact/rating';
 import React from 'react';
 
 const AmenitiesCard = ({ amenitie }) => {
-	console.log(amenitie);
-	console.log(`${import.meta.env.VITE_URL}/uploads/${amenitie.image}`);
 	return (
-		<div className="bg-white shadow-lg rounded-md m-5 p-5 flex w-80 overflow-hidden">
+		<div className="bg-white shadow-lg rounded-md m-5  gap-4 p-5 flex w-[40%] h-64 self-center  overflow-hidden">
 			<img
-				src={`${import.meta.env.VITE_URL}${amenitie.image}`}
-				className="rounded-md h-24 w-24 object-cover"
+				src={`${import.meta.env.VITE_URL}uploads/${amenitie.image}`}
+				className="rounded-md h-32 w-30 object-cover self-center"
 			></img>
-			<div className="ml-5 flex flex-col justify-between w-full overflow-hidden">
+			<div className="ml-5 flex flex-col justify-between w-full self-center  overflow-hidden">
 				<div>
 					<div className="text-darkBlue font-bold text-xl">{amenitie.label}</div>
 					<div className="mt-2 text-darkBlue font-semibold text-sm text-justify break-words">
