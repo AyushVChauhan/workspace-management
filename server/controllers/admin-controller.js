@@ -39,6 +39,7 @@ async function addWorkspace(req, res, next) {
 			label: req.body.rooms[i].label,
 			image: req.files.find((ele) => ele.fieldname == 'rooms[' + i + '][image]').filename,
 			price: req.body.rooms[i].price,
+			description: req.body.rooms[i].description,
 		});
 	}
 
@@ -49,6 +50,7 @@ async function addWorkspace(req, res, next) {
 			image: req.files.find((ele) => ele.fieldname == 'amenities[' + i + '][image]').filename,
 			price: req.body.amenities[i].price,
 			quantity: req.body.amenities[i].quantity,
+			description: req.body.rooms[i].description,
 		});
 	}
 
