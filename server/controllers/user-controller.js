@@ -3,10 +3,13 @@ const { CustomError } = require('../utils/router-utils');
 const roomModel = require('../models/room.models');
 const bookingModel = require('../models/bookings.models');
 const amenityModel = require('../models/amenities.models');
+const { ok200 } = require('../utils/response-utils');
+const stripe = require('../utils/stripe-utils');
 
 async function bookRoom(req, res, next) {
 	//amenities = [{id:, quantity:,}]
-	const { roomId, from, to, amenities, date } = req.body;
+	const { roomId } = req.params;
+	const { from, to, amenities, date } = req.body;
 	if (!isValidObjectId(roomId)) throw new CustomError('Bad Request!', 400);
 
 	if (to <= from) throw new CustomError('To and From Invalid', 400);
@@ -14,11 +17,9 @@ async function bookRoom(req, res, next) {
 	const room = await roomModel.findOne({ _id: roomId, is_active: 1 }).populate('workspace_id');
 	if (!room) throw new CustomError('Invalid RoomID');
 
-	const startDate = new Date(date);
-	startDate.setUTCHours(0, 0, 0, 0);
-	const endDate = new Date(date).setUTCHours(0);
-	endDate.setUTCHours(23, 59, 59, 999);
-	const booking = await bookingModel.find({ room_id: roomId, is_active: 1, date: { $gt: startDate, $lt: endDate } });
+	const dateString = new Date(date).toLocaleDateString();
+
+	const booking = await bookingModel.find({ room_id: roomId, is_active: 1, date: dateString });
 	let available = true;
 	booking.forEach((ele) => {
 		if ((from >= ele.timing.from && from < ele.timing.to) || (to > ele.timing.from && to < ele.timing.to)) {
@@ -38,7 +39,7 @@ async function bookRoom(req, res, next) {
 		const booking = await bookingModel.find({
 			'amenities.id': ele.id,
 			is_active: 1,
-			date: { $gt: startDate, $lt: endDate },
+			date: dateString,
 		});
 		let totalAmenity = amenity.quantity;
 		booking.forEach((ele) => {
@@ -54,7 +55,7 @@ async function bookRoom(req, res, next) {
 	const newBooking = new bookingModel({
 		amenities: amenities.map((ele) => ({ ...ele, id: new mongoose.Types.ObjectId(ele.id) })),
 		amount,
-		date,
+		date: dateString,
 		is_active: 1,
 		room_id: new mongoose.Types.ObjectId(roomId),
 		timing: { from, to },
@@ -62,41 +63,48 @@ async function bookRoom(req, res, next) {
 		workspace_id: room.workspace_id._id,
 	});
 
+	const paymentIntent = await stripe.paymentIntents.create({
+		amount: amount * 100,
+		currency: 'usd',
+		description: newBooking._id.toString(),
+		automatic_payment_methods: {
+			enabled: true,
+		},
+	});
+
 	await newBooking.save();
 
-	ok200(res);
+	res.send({ paymentId: paymentIntent.client_secret });
 }
 
 async function getAmenityAvailability(req, res, next) {
 	const { roomId } = req.params;
 	if (!isValidObjectId(roomId)) throw new CustomError('Bad Request!', 400);
 
-	const { from, to } = req.body;
+	const { from, to } = req.body.timing;
+	const { date } = req.body;
 	if (to <= from) throw new CustomError('To and From Invalid', 400);
 
 	const room = await roomModel.findOne({ _id: roomId, is_active: 1 }).populate('workspace_id');
 	if (!room || room.workspace_id?.is_active != 1) throw new CustomError('Invalid RoomId', 400);
 
-	const startDate = new Date(date);
-	startDate.setUTCHours(0, 0, 0, 0);
-	const endDate = new Date(date).setUTCHours(0);
-	endDate.setUTCHours(23, 59, 59, 999);
+	const dateString = new Date(date).toLocaleDateString();
 
 	const amenities = await amenityModel.find({ workspace_id: room.workspace_id._id, is_active: 1 }).lean();
 	for (let index = 0; index < amenities.length; index++) {
 		const element = amenities[index];
 		const booking = await bookingModel.find({
-			'amenities.id': ele.id,
+			'amenities.id': element._id,
 			is_active: 1,
-			date: { $gt: startDate, $lt: endDate },
+			date: dateString,
 		});
 		booking.forEach((ele) => {
 			//TODO to be changed
 			if (ele.timing.to < to) {
-				element.quantity--;
+				element.quantity -= ele.amenities.find((ele) => ele.id.equals(element._id)).quantity;
 			}
 		});
-		if (ele.quantity < 0) ele.quantity = 0;
+		if (element.quantity < 0) element.quantity = 0;
 	}
 	ok200(res, amenities);
 }
@@ -109,18 +117,16 @@ async function getAvailability(req, res, next) {
 	if (!room || room.workspace_id?.is_active != 1) throw new CustomError('Invalid RoomId', 400);
 
 	const { date } = req.body;
-	const startDate = new Date(date);
-	startDate.setUTCHours(0, 0, 0, 0);
-	const endDate = new Date(date).setUTCHours(0);
-	endDate.setUTCHours(23, 59, 59, 999);
-	const booking = await bookingModel.find({ room_id: roomId, date: { $gt: startDate, $lt: endDate } });
+	const dateString = new Date(date).toLocaleDateString();
+	const booking = await bookingModel.find({ room_id: roomId, date: dateString });
 
 	const response = [];
 
-	for (let i = room.workspace_id.from; i < room.workspace_id.to; i++) {
+	for (let i = room.workspace_id.timing.from; i < room.workspace_id.timing.to; i++) {
 		let available = true;
 		booking.forEach((ele) => {
 			if (available && i >= ele.timing.from && i + 1 <= ele.timing.to) {
+				console.log('here');
 				available = false;
 			}
 		});

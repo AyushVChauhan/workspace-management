@@ -9,9 +9,16 @@ import { FaShapes } from 'react-icons/fa6';
 
 function RoomBooking() {
 	const [activeIndex, setActiveIndex] = useState(0);
+	const [clientSecret, setClientSecret] = useState('');
+	const roomId = '667fbd7d433a1293140889e6';
+	const roomPrice = 300;
+
+	//day selection
+	const [timing, setTiming] = useState({ from: null, to: null });
+	const [date, setDate] = useState(new Date());
+
 	const itemRenderer = (item, itemIndex) => {
 		const isActiveItem = activeIndex === itemIndex;
-
 		return (
 			<>
 				<span
@@ -52,18 +59,35 @@ function RoomBooking() {
 				<div className="card mt-10 mb-10">
 					<Steps model={items} activeIndex={activeIndex} readOnly={false} />
 				</div>
-				{activeIndex == 0 && <DaySelection />}
+				{activeIndex == 0 && (
+					<DaySelection
+						roomId={roomId}
+						timing={timing}
+						date={date}
+						roomPrice={roomPrice}
+						next={(time, date) => {
+							setTiming(time);
+							setDate(date);
+							setActiveIndex(1);
+						}}
+					/>
+				)}
 				{activeIndex == 1 && (
 					<AmenitiesSelection
-						nextPage={(nextFlag) => {
-							if (nextFlag == true) setActiveIndex(2);
-							else setActiveIndex(3);
+						roomId={roomId}
+						timing={timing}
+						date={date}
+						roomPrice={roomPrice}
+						next={(clientSecret) => {
+							setClientSecret(clientSecret);
+							setActiveIndex(2);
 						}}
 						prevPage={() => setActiveIndex(0)}
 					/>
 				)}
 				{activeIndex == 2 && (
 					<Payment
+						clientSecret={clientSecret}
 						nextPage={() => {
 							setActiveIndex(3);
 						}}
