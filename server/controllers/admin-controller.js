@@ -123,18 +123,21 @@ async function roomHistory(req, res, next) {
 
 	const { date } = req.body;
 	const dateString = new Date(date).toLocaleDateString();
-	const booking = await bookingModel.find({ room_id: roomId, date: dateString, is_active: 1 });
+	const booking = await bookingModel.find({ room_id: roomId, date: dateString, is_active: 1 }).populate('user_id');
+	console.log(booking, dateString);
 
 	const response = [];
 
 	for (let i = room.workspace_id.timing.from; i < room.workspace_id.timing.to; i++) {
 		let available = true;
+		let user = null;
 		booking.forEach((ele) => {
 			if (available && i >= ele.timing.from && i + 1 <= ele.timing.to) {
+				user = ele.user_id.username;
 				available = false;
 			}
 		});
-		response.push({ time: { from: i, to: i + 1 }, available });
+		response.push({ time: { from: i, to: i + 1 }, available, user });
 	}
 	ok200(res, response);
 }
