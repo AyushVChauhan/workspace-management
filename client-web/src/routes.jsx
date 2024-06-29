@@ -8,6 +8,8 @@ import Register from './pages/Register';
 import Workspace from './pages/admin/Workspace';
 import AddWorkSpace from './pages/admin/AddWorksapce';
 import WorkspaceDetail from './pages/admin/WorkspaceDetail';
+import WorkspaceDetail from './pages/admin/WorkspaceDetail';
+import UserDashboard from './pages/user/UserDashboard';
 const routes = createBrowserRouter([
 	{
 		path: '/',
@@ -37,7 +39,7 @@ const routes = createBrowserRouter([
 		loader: verifyLoader,
 		errorElement: <ErrorElement />,
 		children: [
-			{ path: '', element: <Dashboard /> },
+			{ path: '', element: <UserDashboard /> },
 			//{ path: 'workspace', element: <Workspace /> },
 			// { path: 'workspace/addworkspace', element: <AddWorkSpace /> },
 		],

@@ -4,6 +4,7 @@ const { ok200 } = require('../utils/response-utils');
 const { CustomError } = require('../utils/router-utils');
 const amenityModel = require('../models/amenities.models');
 const roomModel = require('../models/room.models');
+const bookingModel = require('../models/bookings.models');
 
 async function dashboard(req, res, next) {
 	ok200(res, { count1: 100, count2: 200 });
@@ -86,6 +87,19 @@ async function addWorkspace(req, res, next) {
 		timing: { from, to },
 	});
 	await workspace.save();
+
+	const promises = [];
+
+	roomEntities.forEach((ele) => {
+		ele.workspace_id = workspace._id;
+		promises.push(ele.save());
+	});
+	amentiesEntities.forEach((ele) => {
+		ele.workspace_id = workspace._id;
+		promises.push(ele.save());
+	});
+
+	await Promise.all(promises);
 
 	ok200(res);
 }

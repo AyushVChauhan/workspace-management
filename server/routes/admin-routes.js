@@ -13,11 +13,6 @@ router.get('/dashboard', asyncRouteHandler(dashboard));
 
 router.get('/workspace', asyncRouteHandler(getWorkspaces));
 router.get('/workspace/:id', asyncRouteHandler(getWorkspace));
-router.post(
-	'/workspace',
-	// upload.fields([{ name: 'workspaceImage' }, { name: 'rooms' }, { name: 'amenities' }]),
-	upload.any(),
-	asyncRouteHandler(addWorkspace)
-);
+router.post('/workspace', upload.any(), asyncRouteHandler(addWorkspace));
 
 module.exports = router;

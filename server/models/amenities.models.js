@@ -8,6 +8,7 @@ const amenitySchema = new mongoose.Schema(
 		price: { type: Number, required: true },
 		is_active: { type: Number, default: 1 },
 		description: { type: String, trim: true },
+		quantity: { type: Number, required: true },
 		rating: Number,
 	},
 	{ timestamps: true }
