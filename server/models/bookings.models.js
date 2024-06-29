@@ -7,7 +7,7 @@ const bookingSchema = new mongoose.Schema(
 		room_id: { type: mongoose.SchemaTypes.ObjectId, ref: 'rooms' },
 		amenities: [{ id: { type: mongoose.SchemaTypes.ObjectId, ref: 'amenities' }, quantity: Number }],
 		timing: { from: Number, to: Number },
-		date: Date,
+		date: String,
 		payment_id: String,
 		payment_status: { type: String },
 		amount: Number,
