@@ -9,6 +9,7 @@ const workspaceSchema = new mongoose.Schema(
 		amenities: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'amenities' }],
 		timing: { from: Number, to: Number },
 		is_active: { type: Number, default: 1 },
+		address: { type: String, required: true },
 		rating: Number,
 	},
 	{ timestamps: true }

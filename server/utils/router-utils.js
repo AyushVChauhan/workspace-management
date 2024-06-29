@@ -28,13 +28,13 @@ function interceptor(req, res, next) {
  * @param {Error} error
  */
 async function errorHandler(error, req, res, next) {
-	for (let index = 0; index < req.files?.length; index++) {
-		const element = req.files[index];
-		fs.rmSync(element.path);
-	}
-	if (req.file) {
-		fs.rmSync(req.file.path);
-	}
+	// for (let index = 0; index < req.files?.length; index++) {
+	// 	const element = req.files[index];
+	// 	fs.rmSync(element.path);
+	// }
+	// if (req.file) {
+	// 	fs.rmSync(req.file.path);
+	// }
 	const userData = res.locals.userData;
 	if (userData?.username) {
 		console.log('\x1b[34m%s\x1b[0m', userData?.username);
