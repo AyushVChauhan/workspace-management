@@ -56,7 +56,7 @@ async function bookRoom(req, res, next) {
 		amenities: amenities.map((ele) => ({ ...ele, id: new mongoose.Types.ObjectId(ele.id) })),
 		amount,
 		date: dateString,
-		is_active: 1,
+		is_active: 0,
 		room_id: new mongoose.Types.ObjectId(roomId),
 		timing: { from, to },
 		user_id: new mongoose.Types.ObjectId(res.locals.userData._id),
@@ -71,6 +71,9 @@ async function bookRoom(req, res, next) {
 			enabled: true,
 		},
 	});
+
+	newBooking.payment_id = paymentIntent.client_secret;
+	newBooking.payment_status = 'PENDING';
 
 	await newBooking.save();
 
@@ -118,7 +121,7 @@ async function getAvailability(req, res, next) {
 
 	const { date } = req.body;
 	const dateString = new Date(date).toLocaleDateString();
-	const booking = await bookingModel.find({ room_id: roomId, date: dateString });
+	const booking = await bookingModel.find({ room_id: roomId, date: dateString, is_active: 1 });
 
 	const response = [];
 
@@ -135,4 +138,34 @@ async function getAvailability(req, res, next) {
 	ok200(res, response);
 }
 
-module.exports = { getAvailability, bookRoom, getAmenityAvailability };
+async function getRoom(req, res, next) {
+	const { roomId } = req.params;
+	if (!isValidObjectId(roomId)) throw new CustomError('Bad Request!', 400);
+
+	const room = await roomModel.findOne({ _id: roomId, is_active: 1 });
+	if (!room) throw new CustomError('Invalid RoomId', 400);
+
+	ok200(res, room);
+}
+
+async function paymentConfirm(req, res, next) {
+	if (req.query.redirect_status == 'succeeded') {
+		const booking = await bookingModel.findOne({ payment_id: req.query.payment_intent_client_secret });
+		booking.is_active = 1;
+		booking.payment_status = 'SUCCESS';
+		await booking.save();
+	}
+	res.redirect('http://localhost:5173');
+}
+
+async function history(req, res, next) {
+	const userId = res.locals.userData._id;
+	const bookings = await bookingModel
+		.find({ is_active: 1, user_id: userId })
+		.populate('amenities.id')
+		.populate('workspace_id')
+		.populate('room_id');
+	ok200(res, bookings);
+}
+
+module.exports = { getAvailability, bookRoom, getAmenityAvailability, getRoom, paymentConfirm, history };

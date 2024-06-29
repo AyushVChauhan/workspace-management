@@ -1,4 +1,3 @@
-import React from 'react';
 import { InputText } from 'primereact/inputtext';
 import WorkspaceCard from '../../components/WorkspaceCard';
 import { useState, useEffect } from 'react';

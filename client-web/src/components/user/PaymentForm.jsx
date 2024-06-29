@@ -16,7 +16,7 @@ function PaymentForm() {
 		const resp = await stripe.confirmPayment({
 			elements,
 			confirmParams: {
-				return_url: 'http://localhost:5173/stripe_confirm',
+				return_url: import.meta.env.VITE_PAYMENT_SUCCESS_URL,
 			},
 		});
 

@@ -27,7 +27,12 @@ function RoomCard({ room }) {
 
 						<div>
 							{role == 'user' && (
-								<Button className="bg-darkBlue text-white font-bold py-2 mr-0 px-4 rounded mt-4 self-end justify-end">
+								<Button
+									onClick={() => {
+										navigate(`/${role}/roomBook/${room._id}`);
+									}}
+									className="bg-darkBlue text-white font-bold py-2 mr-0 px-4 rounded mt-4 self-end justify-end"
+								>
 									+ Book
 								</Button>
 							)}

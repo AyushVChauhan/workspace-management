@@ -8,6 +8,7 @@ const adminRoutes = require('./routes/admin-routes');
 const userRoutes = require('./routes/user-routes');
 const morgan = require('morgan');
 const { authMiddleware } = require('./middlewares/auth-middleware');
+const { paymentConfirm } = require('./controllers/user-controller');
 const port = process.env.PORT || 3001;
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(express.static('public'));
 app.post('/login', asyncRouteHandler(login));
 app.post('/register', asyncRouteHandler(register));
 app.post('/notification-token', authMiddleware(undefined), asyncRouteHandler(updateNotificationToken));
+app.get('/payment-success', asyncRouteHandler(paymentConfirm));
 
 app.use('/admin', adminRoutes);
 app.use('/user', userRoutes);

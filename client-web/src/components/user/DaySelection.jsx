@@ -138,10 +138,12 @@ function DaySelection({ roomId, timing, date, next, roomPrice }) {
 						</div>
 					</div>
 				</div>
-				<div className="flex justify-end">
-					<Button className="bg-darkBlue" onClick={goNext}>
-						Next - {roomPrice * (selectedTime.to - selectedTime.from)} $
-					</Button>
+				<div className="text-end">
+					<Button
+						className="bg-darkBlue text-white py-2 text-center w-auto px-3"
+						label={`Next - ${roomPrice * (selectedTime.to - selectedTime.from)} $`}
+						onClick={goNext}
+					/>
 				</div>
 			</div>
 		</div>
