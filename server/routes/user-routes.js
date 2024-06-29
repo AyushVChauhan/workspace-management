@@ -5,7 +5,7 @@ const { verify } = require('../controllers/common-controller');
 
 const router = express.Router();
 
-router.use(authMiddleware('ADMIN'));
+router.use(authMiddleware('USER'));
 router.get('/verify', asyncRouteHandler(verify));
 
 module.exports = router;

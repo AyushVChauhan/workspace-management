@@ -5,6 +5,7 @@ const { asyncRouteHandler, errorHandler } = require('./utils/router-utils');
 const { login, register, updateNotificationToken } = require('./controllers/common-controller');
 const { dbConnect, addAdmin } = require('./utils/database-utils');
 const adminRoutes = require('./routes/admin-routes');
+const userRoutes = require('./routes/user-routes');
 const morgan = require('morgan');
 const { authMiddleware } = require('./middlewares/auth-middleware');
 const port = process.env.PORT || 3001;
@@ -23,6 +24,7 @@ app.post('/register', asyncRouteHandler(register));
 app.post('/notification-token', authMiddleware(undefined), asyncRouteHandler(updateNotificationToken));
 
 app.use('/admin', adminRoutes);
+app.use('/user', userRoutes);
 // app.post('/forgot-password', asyncRouteHandler(sendToken));
 // app.post('/reset-password', asyncRouteHandler(resetPassword));
 
