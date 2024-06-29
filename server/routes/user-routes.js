@@ -2,7 +2,13 @@ const express = require('express');
 const { authMiddleware } = require('../middlewares/auth-middleware');
 const { asyncRouteHandler } = require('../utils/router-utils');
 const { verify } = require('../controllers/common-controller');
-const { bookRoom, getAvailability, getAmenityAvailability } = require('../controllers/user-controller');
+const {
+	bookRoom,
+	getAvailability,
+	getAmenityAvailability,
+	getRoom,
+	history,
+} = require('../controllers/user-controller');
 const { getWorkspaces, getWorkspace } = require('../controllers/admin-controller');
 
 const router = express.Router();
@@ -12,6 +18,10 @@ router.get('/verify', asyncRouteHandler(verify));
 
 router.get('/workspace', asyncRouteHandler(getWorkspaces));
 router.get('/workspace/:id', asyncRouteHandler(getWorkspace));
+
+router.get('/room/:roomId', asyncRouteHandler(getRoom));
+
+router.get('/history', asyncRouteHandler(history));
 
 router.post('/booking/availability/:roomId', asyncRouteHandler(getAvailability));
 router.post('/booking/availability/amenity/:roomId', asyncRouteHandler(getAmenityAvailability));

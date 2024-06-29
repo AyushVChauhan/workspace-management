@@ -68,7 +68,7 @@ function AmenitiesSelection({ roomId, timing, date, next, roomPrice }) {
 				</div>
 			))}
 			<div className="flex justify-end">
-				<Button className="bg-darkBlue" onClick={goNext}>
+				<Button className="bg-darkBlue text-white font-semibold p-2" onClick={goNext}>
 					Next -{' '}
 					{roomPrice * (timing.to - timing.from) +
 						Object.keys(selectedQuantities)

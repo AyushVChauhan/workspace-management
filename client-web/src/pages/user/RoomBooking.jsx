@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Steps } from 'primereact/steps';
 import DaySelection from '../../components/user/DaySelection';
 import AmenitiesSelection from '../../components/user/AmenitiesSelection';
@@ -6,12 +6,29 @@ import Payment from '../../components/user/Payment';
 import { IoCalendarNumber } from 'react-icons/io5';
 import { FaIndianRupeeSign } from 'react-icons/fa6';
 import { FaShapes } from 'react-icons/fa6';
+import { useParams } from 'react-router-dom';
+import { fetchGet } from '../../utils/fetch-utils';
+import Loading from '../../components/Loading';
 
 function RoomBooking() {
 	const [activeIndex, setActiveIndex] = useState(0);
 	const [clientSecret, setClientSecret] = useState('');
-	const roomId = '667fbd7d433a1293140889e6';
-	const roomPrice = 300;
+	const [loading, setLoading] = useState(true);
+	const { id: roomId } = useParams();
+	const [roomPrice, setRoomPrice] = useState(null);
+
+	const getData = async () => {
+		setLoading(true);
+		const result = await fetchGet('user/room/' + roomId, localStorage.getItem('token'));
+		if (result.success) {
+			setRoomPrice(result.data.price);
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		getData();
+	}, []);
 
 	//day selection
 	const [timing, setTiming] = useState({ from: null, to: null });
@@ -50,6 +67,9 @@ function RoomBooking() {
 			template: (item) => itemRenderer(item, 2),
 		},
 	];
+
+	if (loading) return <Loading />;
+
 	return (
 		<div>
 			<div className="px-10">
