@@ -7,7 +7,7 @@ import ErrorElement from './components/ErrorElement';
 import Register from './pages/Register';
 import Workspace from './pages/admin/Workspace';
 import AddWorkSpace from './pages/admin/AddWorksapce';
-import WorkspaceDetail from './pages/admin/WorkspaceDetail';
+import WorkspaceDetail from './pages/common/WorkspaceDetail';
 import UserDashboard from './pages/user/UserDashboard';
 import UserBookings from './pages/admin/UserBookings';
 import History from './pages/user/History';
@@ -34,12 +34,12 @@ const routes = createBrowserRouter([
 		children: [
 			{ path: '', element: <Dashboard /> },
 			{ path: 'workspace', element: <Workspace /> },
-			{ path: 'workspace/addworkspace', element: <AddWorkSpace /> },
+			{ path: 'workspace/add', element: <AddWorkSpace /> },
 			{ path: 'workspace/edit/:workspaceId', element: <EditWorkspace /> },
 			{ path: 'workspace/:id', element: <WorkspaceDetail /> },
-			{ path: 'userbooking', element: <UserBookings /> },
-			{ path: 'workspacedetails/:id', element: <RoomStatusManagement /> },
-			{ path: 'roomstatus', element: <RoomStatus /> },
+			{ path: 'user-booking', element: <UserBookings /> },
+			{ path: 'room-status', element: <RoomStatus /> },
+			{ path: 'room-status/:id', element: <RoomStatusManagement /> },
 		],
 	},
 	{
@@ -49,10 +49,9 @@ const routes = createBrowserRouter([
 		errorElement: <ErrorElement />,
 		children: [
 			{ path: '', element: <UserDashboard /> },
-			{ path: 'workspace', element: <Workspace /> },
 			{ path: 'workspace/:id', element: <WorkspaceDetail /> },
 			{ path: 'history', element: <History /> },
-			{ path: 'roomBook/:id', element: <RoomBooking /> },
+			{ path: 'room-book/:id', element: <RoomBooking /> },
 			// { path: 'workspacedetails/:id', element: <RoomStatusManagement /> },
 			//{ path: 'workspace', element: <Workspace /> },
 			// { path: 'workspace/addworkspace', element: <AddWorkSpace /> },

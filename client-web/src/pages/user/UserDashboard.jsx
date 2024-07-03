@@ -3,6 +3,8 @@ import WorkspaceCard from '../../components/WorkspaceCard';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchGet } from '../../utils/fetch-utils';
+import { IconField } from 'primereact/iconfield';
+import { InputIcon } from 'primereact/inputicon';
 function UserDashboard() {
 	const navigate = useNavigate();
 	const [workspace, setWorkspace] = useState([]);
@@ -29,20 +31,22 @@ function UserDashboard() {
 	);
 
 	return (
-		<div className="flex flex-col items-center h-screen">
-			<div className="text-4xl px-10 font-bold py-1">Workspaces</div>
-			<div className="w-4/5 max-w-xl mt-3">
-				<span className="p-input-icon-left w-full">
-					<i className="ps-4 pi pi-search" />
-					<InputText
-						className="ps-10 w-full p-2 rounded-full text-lg"
-						placeholder="Search..."
-						value={filter}
-						onChange={(e) => setFilter(e.target.value)}
-					/>
-				</span>
+		<div>
+			<div className="flex flex-row justify-between">
+				<div className="text-4xl font-bold">Workspaces</div>
+				<div className="w-1/2">
+					<IconField iconPosition="left">
+						<InputIcon className="pi pi-search"> </InputIcon>
+						<InputText
+							className="w-full rounded-full text-lg"
+							onChange={(e) => setFilter(e.target.value)}
+							placeholder="Search"
+							value={filter}
+						/>
+					</IconField>
+				</div>
 			</div>
-			<div className="gap-10 p-11 flex w-full flex-col justify-center items-center">
+			<div className="grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-5">
 				{filteredWorkspaces.map((ele) => (
 					<WorkspaceCard key={ele._id} detail={ele} />
 				))}

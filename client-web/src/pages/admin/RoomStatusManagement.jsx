@@ -6,10 +6,11 @@ import { Column } from 'primereact/column';
 import { Tag } from 'primereact/tag';
 import { useParams } from 'react-router-dom';
 function RoomStatusManagement() {
-	const [selectedDate, setSelectedDate] = useState(new Date());
+	const role = localStorage.getItem('role').toLowerCase();
+	const [selectedDate, setSelectedDate] = useState();
 	const { id } = useParams();
 	const [data, setData] = useState();
-	const role = localStorage.getItem('role').toLowerCase();
+	const [loading, setLoading] = useState(false);
 
 	const statusBodyTemplate = (rowData) => {
 		return (
@@ -21,11 +22,12 @@ function RoomStatusManagement() {
 		);
 	};
 
-	const getData = async (date) => {
+	const getData = async () => {
+		setLoading(true);
 		const result = await fetchPost(
 			`${role}/history/room/${id}`,
 			localStorage.getItem('token'),
-			JSON.stringify({ date: date })
+			JSON.stringify({ date: selectedDate })
 		);
 		if (result.success) {
 			setData(
@@ -39,52 +41,37 @@ function RoomStatusManagement() {
 				}))
 			);
 		}
+		setLoading(false);
 	};
-	console.log(data);
-	useEffect(() => {
-		getData(new Date());
-	}, []);
 
-	const handleDateChange = async (e) => {
-		const date = e.value;
-		setSelectedDate(date);
-		getData(date);
-	};
+	useEffect(() => {
+		if (selectedDate) {
+			getData();
+		}
+	}, [selectedDate]);
 
 	return (
-		<>
-			<div className="px-10">
-				<div className="flex justify-between items-center my-4 mb-5">
-					<div className="text-4xl font-bold">Room Status Management</div>
-				</div>
-				<div className="my-4">
-					<Calendar
-						value={selectedDate}
-						onChange={handleDateChange}
-						showIcon
-						className="p-inputtext-lg w-full md:w-4/12 mb-4"
-						dateFormat="yy-mm-dd"
-						placeholder="Select a date"
-					/>
-				</div>
-				{selectedDate && (
-					<div className="my-4 w-5/6 mt-3">
-						<div className="card">
-							<DataTable
-								value={data}
-								tableStyle={{ minWidth: '30rem', border: '1px solid #ccc' }}
-								className="border border-collapse"
-								stripedRows
-							>
-								<Column field="hour" header="Hour"></Column>
-								<Column header="Status" body={statusBodyTemplate}></Column>
-								<Column field="amenityStatus" header="Amenities"></Column>
-							</DataTable>
-						</div>
-					</div>
-				)}
+		<div>
+			<div className="text-4xl font-bold">Room Status Management</div>
+			<div className="my-4">
+				<Calendar
+					value={selectedDate}
+					onChange={(e) => setSelectedDate(e.value)}
+					showIcon
+					className="w-full md:w-1/2"
+					placeholder="Select a date"
+				/>
 			</div>
-		</>
+			{selectedDate && (
+				<div className="my-4">
+					<DataTable value={data} tableStyle={{ border: '1px solid #ccc' }} stripedRows loading={loading}>
+						<Column field="hour" header="Hour"></Column>
+						<Column header="Status" body={statusBodyTemplate}></Column>
+						<Column field="amenityStatus" header="Amenities"></Column>
+					</DataTable>
+				</div>
+			)}
+		</div>
 	);
 }
 

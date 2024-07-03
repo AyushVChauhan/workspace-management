@@ -1,24 +1,27 @@
+/* eslint-disable react/prop-types */
 import { Rating } from 'primereact/rating';
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AmenitiesCard = ({ amenitie }) => {
+	const role = localStorage.getItem('role').toLowerCase();
+	const navigate = useNavigate();
 	return (
-		<div className="bg-white shadow-lg rounded-md m-5  gap-4 p-5 flex w-[40%] h-64 self-center  overflow-hidden">
-			<img
-				src={`${import.meta.env.VITE_URL}uploads/${amenitie.image}`}
-				className="rounded-md h-32 w-30 object-cover self-center"
-			></img>
-			<div className="ml-5 flex flex-col justify-between w-full self-center  overflow-hidden">
-				<div>
-					<div className="text-darkBlue font-bold text-xl">{amenitie.label}</div>
-					<div className="mt-2 text-darkBlue font-semibold text-sm text-justify break-words">
-						{amenitie.description}
-					</div>
-					<div className="mt-2 text-darkBlue font-bold text-lg">{`Quantity: ${amenitie.quantity}`}</div>
-					<div className="mt-2 text-darkBlue font-semibold text-sm text-justify break-words">
-						<Rating value={amenitie.rating} readOnly cancel={false} className="p-rating-item" />
-					</div>
-				</div>
+		<div
+			onClick={() => {
+				if (role == 'admin') {
+					navigate(`/${role}/amenitie-status/${amenitie._id}`);
+				}
+			}}
+			className="p-3 cursor-pointer shadow-md rounded-xl w-full bg-white"
+		>
+			<div className="w-full overflow-hidden rounded-xl aspect-square">
+				<img src={`${amenitie.image}`} className="w-full object-contain" alt="amenitie Image" />
+			</div>
+			<div className="mt-3">
+				<div className="text-2xl font-semibold text-darkBlue">{amenitie.label}</div>
+				<div className="text-ellipsis line-clamp-3 mt-3">{amenitie.description}</div>
+				<div className="mt-2 text-darkBlue font-bold text-lg">Price: {amenitie.price}$ / hour</div>
+				<Rating value={amenitie.rating} readOnly cancel={false} className="p-rating-item mt-3" />
 			</div>
 		</div>
 	);

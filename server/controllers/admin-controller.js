@@ -7,6 +7,7 @@ const roomModel = require('../models/room.models');
 const bookingModel = require('../models/bookings.models');
 const userModel = require('../models/users.models');
 const rolesConstant = require('../constants/roles.constant');
+const { uploadFile } = require('../utils/upload-utils');
 
 async function dashboard(req, res, next) {
 	const userCount = await userModel.countDocuments({ is_active: 1, role: rolesConstant.USER });
@@ -30,8 +31,8 @@ async function getWorkspace(req, res, next) {
 }
 
 async function addWorkspace(req, res, next) {
-	console.log(req.files);
-	const image = '/uploads/' + req.files.find((ele) => ele.fieldname == 'workspaceImage').filename;
+	const workspaceImageFile = req.files.find((ele) => ele.fieldname == 'workspaceImage');
+	const image = await uploadFile(workspaceImageFile.path, '/uploads/' + workspaceImageFile.filename);
 	const description = req.body.description;
 	const address = req.body.address;
 	const from = req.body.from;
@@ -40,9 +41,10 @@ async function addWorkspace(req, res, next) {
 
 	const rooms = [];
 	for (let i = 0; i < req.body.rooms.length; i++) {
+		const roomImage = req.files.find((ele) => ele.fieldname == 'rooms[' + i + '][image]');
 		rooms.push({
 			label: req.body.rooms[i].label,
-			image: req.files.find((ele) => ele.fieldname == 'rooms[' + i + '][image]').filename,
+			image: await uploadFile(roomImage.path, '/uploads/' + roomImage.filename),
 			price: req.body.rooms[i].price,
 			description: req.body.rooms[i].description,
 		});
@@ -50,9 +52,10 @@ async function addWorkspace(req, res, next) {
 
 	const amenities = [];
 	for (let i = 0; i < req.body.amenities.length; i++) {
+		const amenityImage = req.files.find((ele) => ele.fieldname == 'amenities[' + i + '][image]');
 		amenities.push({
 			label: req.body.amenities[i].label,
-			image: req.files.find((ele) => ele.fieldname == 'amenities[' + i + '][image]').filename,
+			image: await uploadFile(amenityImage.path, '/uploads/' + amenityImage.filename),
 			price: req.body.amenities[i].price,
 			quantity: req.body.amenities[i].quantity,
 			description: req.body.rooms[i].description,
@@ -76,8 +79,6 @@ async function addWorkspace(req, res, next) {
 		roomEntities.push(new roomModel(room));
 		await roomEntities[i].save();
 	}
-
-	console.log(rooms, roomEntities, amenities, amentiesEntities);
 
 	const rating = Math.ceil(Math.random() * 5);
 	const workspace = new workspaceModel({

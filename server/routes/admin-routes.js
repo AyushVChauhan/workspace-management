@@ -11,7 +11,7 @@ const {
 	roomHistory,
 	getWorkspaceEdit,
 } = require('../controllers/admin-controller');
-const upload = require('../utils/storege-utils');
+const upload = require('../utils/storage-utils');
 
 const router = express.Router();
 

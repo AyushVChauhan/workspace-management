@@ -9,6 +9,7 @@ const userRoutes = require('./routes/user-routes');
 const morgan = require('morgan');
 const { authMiddleware } = require('./middlewares/auth-middleware');
 const { paymentConfirm } = require('./controllers/user-controller');
+const uploadFile = require('./utils/upload-utils');
 const port = process.env.PORT || 3001;
 const app = express();
 

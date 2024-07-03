@@ -6,7 +6,8 @@ import { BiSortAZ, BiSortAlt2, BiSortZA } from 'react-icons/bi';
 import { useRef, useState } from 'react';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
-import { FaSearch } from 'react-icons/fa';
+import { IconField } from 'primereact/iconfield';
+import { InputIcon } from 'primereact/inputicon';
 
 const tableStyle = {
 	borderCollapse: 'collapse',
@@ -88,15 +89,14 @@ function Datatable({ data, array, action = [], onRowClick = () => {}, extraCompo
 	return (
 		<>
 			<div className="flex justify-between items-center w-full mt-5 ">
-				<span className="p-input-icon-right">
+				<IconField iconPosition="left">
+					<InputIcon className="pi pi-search"> </InputIcon>
 					<InputText
-						value={globalFilterValue}
-						className="py-2  px-4 border border-black rounded-md  focus:outline-none focus:border-blue-300"
 						onChange={(e) => onGlobalFilterChange(e)}
 						placeholder="Search"
+						value={globalFilterValue}
 					/>
-					<FaSearch />
-				</span>
+				</IconField>
 
 				<Button
 					type="button"
@@ -105,10 +105,9 @@ function Datatable({ data, array, action = [], onRowClick = () => {}, extraCompo
 					rounded
 					onClick={exportCSV}
 					data-pr-tooltip="XLS"
-					className="rounded-md flex items-center space-x-1"
-				>
-					<span className="text-green-700 font-bold">Export</span>
-				</Button>
+					className="rounded-md font-bold"
+					label="Export"
+				/>
 			</div>
 			<div className="w-full rounded-lg overflow-hidden mt-5">
 				<DataTable

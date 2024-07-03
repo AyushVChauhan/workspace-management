@@ -1,48 +1,40 @@
+/* eslint-disable react/prop-types */
 import { Button } from 'primereact/button';
 import { useNavigate } from 'react-router-dom';
 import { Rating } from 'primereact/rating';
 function RoomCard({ room }) {
 	const role = localStorage.getItem('role').toLowerCase();
 	const navigate = useNavigate();
-	console.log(room);
 	return (
 		<div
 			onClick={() => {
 				if (role == 'admin') {
-					navigate(`/${role}/workspacedetails/${room._id}`);
+					navigate(`/${role}/room-status/${room._id}`);
 				}
 			}}
-			className="p-2  cursor-pointer  gap-10 rounded-xl justify-center items-center flex  flex-col  "
+			className="p-3 cursor-pointer shadow-md rounded-xl w-full bg-white"
 		>
-			<div className="bg-white shadow-lg rounded-md ms-10 p-5 flex w-96 h-64 overflow-hidden">
-				<img
-					src={`${import.meta.env.VITE_URL}uploads/${room.image}`}
-					className="rounded-md h-24 w-24 object-cover"
-				></img>
-				<div className="ml-5 flex flex-col justify-between w-full overflow-hidden">
-					<div>
-						<div className="text-darkBlue font-bold text-xl text-center">{room.label}</div>
-						<div className="mt-2 text-darkBlue font-semibold text-sm text-justify break-words">
-							{room.description}
-						</div>
-						<div className="mt-2 text-darkBlue font-bold text-lg">Price: {room.price}</div>
-						<Rating value={room.rating} readOnly cancel={false} className="p-rating-item" />
-
-						<div>
-							{role == 'user' && (
-								<Button
-									onClick={() => {
-										navigate(`/${role}/roomBook/${room._id}`);
-									}}
-									className="bg-darkBlue text-white font-bold py-2 mr-0 px-4 rounded mt-4 self-end justify-end"
-								>
-									+ Book
-								</Button>
-							)}
-						</div>
-					</div>
-				</div>
+			<div className="w-full overflow-hidden rounded-xl aspect-square">
+				<img src={`${room.image}`} className="w-full object-contain" alt="Room Image" />
 			</div>
+			<div className="mt-3">
+				<div className="text-2xl font-semibold text-darkBlue">{room.label}</div>
+				<div className="text-ellipsis line-clamp-3 mt-3">{room.description}</div>
+				<div className="mt-2 text-darkBlue font-bold text-lg">Price: {room.price}$ / hour</div>
+				<Rating value={room.rating} readOnly cancel={false} className="p-rating-item mt-3" />
+			</div>
+			{role == 'user' && (
+				<div className="mt-3 text-end">
+					<Button
+						onClick={() => {
+							navigate(`/${role}/room-book/${room._id}`);
+						}}
+						className="bg-darkBlue rounded-md border-0"
+					>
+						Book
+					</Button>
+				</div>
+			)}
 		</div>
 	);
 }

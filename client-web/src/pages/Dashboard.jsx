@@ -46,7 +46,7 @@ function Dashboard() {
 	return (
 		<>
 			{loading && <Loading />}
-			<div className="text-4xl px-10 font-bold py-1">Dashboard</div>
+			<div className="text-4xl font-bold">Dashboard</div>
 
 			<div className="flex overflow-hidden flex-wrap justify-evenly">
 				{count &&

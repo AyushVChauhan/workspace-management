@@ -24,14 +24,16 @@ function Home() {
 					to: '/admin/workspace',
 					iconClass: <BsPersonWorkspace />,
 					name: 'Workspaces',
+					end: false,
 				},
 				{
-					to: '/admin/userbooking',
+					to: '/admin/room-status',
 					iconClass: <FaHistory />,
 					name: 'Room Status',
+					end: false,
 				},
 				{
-					to: '/admin/roomstatus',
+					to: '/admin/user-booking',
 					iconClass: <FaHistory />,
 					name: 'User Bookings',
 				},

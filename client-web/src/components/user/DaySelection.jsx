@@ -41,33 +41,28 @@ function DaySelection({ roomId, timing, date, next, roomPrice }) {
 
 	const handleCheckboxChange = (index) => {
 		if (selectedTime.from === null) {
-			// Set the initial selection
 			setSelectedTime({ from: availableHours[index].time.from, to: availableHours[index].time.to });
-		} else {
-			// Check if the checkbox is already selected
-			const isSelected =
-				selectedTime.from === availableHours[index].time.from &&
-				selectedTime.to === availableHours[index].time.to;
+			return;
+		}
+		const isSelected =
+			selectedTime.from <= availableHours[index].time.from && selectedTime.to >= availableHours[index].time.to;
+		if (isSelected) {
+			setSelectedTime({ from: null, to: null });
+			return;
+		}
 
-			if (isSelected) {
-				// Deselect the checkbox
-				setSelectedTime({ from: null, to: null });
-			} else {
-				// Ensure continuous selection
-				const newFrom = Math.min(selectedTime.from, availableHours[index].time.from);
-				const newTo = Math.max(selectedTime.to, availableHours[index].time.to);
-				const continuous = availableHours.every((slot) => {
-					if (slot.time.from >= newFrom && slot.time.to <= newTo) {
-						if (slot.available) return true;
-						else return false;
-					}
-					return true;
-				});
-
-				if (continuous) {
-					setSelectedTime({ from: newFrom, to: newTo });
-				}
+		const newFrom = Math.min(selectedTime.from, availableHours[index].time.from);
+		const newTo = Math.max(selectedTime.to, availableHours[index].time.to);
+		const continuous = availableHours.every((slot) => {
+			if (slot.time.from >= newFrom && slot.time.to <= newTo) {
+				if (slot.available) return true;
+				else return false;
 			}
+			return true;
+		});
+
+		if (continuous) {
+			setSelectedTime({ from: newFrom, to: newTo });
 		}
 	};
 
@@ -77,76 +72,68 @@ function DaySelection({ roomId, timing, date, next, roomPrice }) {
 	};
 
 	return (
-		<div className="p-grid p-fluid">
-			<div className="p-col-12">
-				<div className="flex">
-					<div className="w-full">
-						<label htmlFor="datePicker" className="text-lg m-3">
-							Select Date:
-						</label>
-						<Calendar
-							minDate={new Date()}
-							className="m-3"
-							id="datePicker"
-							value={selectedDate}
-							onChange={handleDateChange}
-							inline
-						/>
-					</div>
-					<div className="w-full">
-						<label>Available Hours:</label>
-						<div className="flex flex-row flex-wrap gap-x-3">
-							{availableHours.map((hour, index) => (
-								<div key={index}>
-									<div
-										className="p-p-2"
-										style={{
-											borderRadius: '20px',
-											padding: '8px',
-											margin: '10px',
-											filter: hour.available ? 'none' : 'blur(1px)',
-										}}
-									>
-										<Checkbox
-											inputId={'hour' + index}
-											disabled={!hour.available}
-											onChange={() => handleCheckboxChange(index)}
-											checked={
-												selectedTime.from !== null &&
-												hour.time.from >= selectedTime.from &&
-												hour.time.to <= selectedTime.to
-											}
-											className="p-mr-2"
-											style={{ marginTop: '4px' }}
-										/>
-										<label
-											htmlFor={'hour' + index}
-											style={{
-												color: 'black',
-												borderRadius: '20px',
-												padding: '4px 12px',
-												display: 'inline-block',
-												marginLeft: '10px',
-												backgroundColor: hour.available ? '#d3f2e2' : '#f0a1a8',
-											}}
-										>
-											{hour.time.from}.00 - {hour.time.to}.00
-										</label>
-									</div>
-								</div>
-							))}
-						</div>
-					</div>
-				</div>
-				<div className="text-end">
-					<Button
-						className="bg-darkBlue text-white py-2 text-center w-auto px-3"
-						label={`Next - ${roomPrice * (selectedTime.to - selectedTime.from)} $`}
-						onClick={goNext}
+		<>
+			<div className="flex flex-col lg:flex-row">
+				<div className="w-full">
+					<label htmlFor="datePicker" className="text-lg m-3 block">
+						Select Date:
+					</label>
+					<Calendar
+						className="w-full"
+						minDate={new Date()}
+						id="datePicker"
+						value={selectedDate}
+						onChange={handleDateChange}
+						inline
 					/>
 				</div>
+				<div className="w-full">
+					<label className="text-lg m-3 block">Select Hours:</label>
+					<div className="flex flex-row flex-wrap gap-x-3">
+						{availableHours.map((hour, index) => (
+							<div
+								key={index}
+								className="p-4 flex items-center"
+								style={{
+									filter: hour.available ? 'none' : 'blur(1px)',
+								}}
+							>
+								<Checkbox
+									inputId={'hour' + index}
+									disabled={!hour.available}
+									onChange={() => handleCheckboxChange(index)}
+									checked={
+										selectedTime.from !== null &&
+										hour.time.from >= selectedTime.from &&
+										hour.time.to <= selectedTime.to
+									}
+								/>
+								<label
+									htmlFor={'hour' + index}
+									className="px-5"
+									style={{
+										borderRadius: '20px',
+										padding: '4px 12px',
+										display: 'inline-block',
+										marginLeft: '10px',
+										backgroundColor: hour.available ? '#d3f2e2' : '#f0a1a8',
+									}}
+								>
+									{hour.time.from}.00 - {hour.time.to}.00
+								</label>
+							</div>
+						))}
+					</div>
+				</div>
 			</div>
-		</div>
+			<div className="text-end">
+				<Button
+					className="bg-darkBlue border-0 rounded-md"
+					label={`Next - ${roomPrice * (selectedTime.to - selectedTime.from)} $`}
+					onClick={goNext}
+				/>
+			</div>
+		</>
 	);
 }
 
