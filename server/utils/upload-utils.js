@@ -1,5 +1,5 @@
 const { storage } = require('../firebase/firebase-config');
-const { ref, uploadBytes, getDownloadURL } = require('firebase/storage');
+const { getDownloadURL } = require('firebase-admin/storage');
 const fs = require('fs');
 
 /**
@@ -9,10 +9,14 @@ const fs = require('fs');
  * @returns {Promise<string>} url of the file
  */
 async function uploadFile(filePath, destination) {
-	const fileRef = ref(storage, destination);
-	const file = fs.readFileSync(filePath);
-	const data = await uploadBytes(fileRef, file);
-	const url = await getDownloadURL(fileRef);
+	const file = storage.file(destination);
+	await storage.upload(filePath, {
+		destination: destination,
+		metadata: {
+			contentType: 'auto', // Automatically determine content type
+		},
+	});
+	const url = await getDownloadURL(file);
 	fs.rmSync(filePath);
 	return url;
 }

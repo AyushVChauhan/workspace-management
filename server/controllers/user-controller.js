@@ -182,7 +182,15 @@ async function history(req, res, next) {
 		.populate('amenities.id')
 		.populate('workspace_id')
 		.populate('room_id')
-		.sort({ createdAt: 1 });
+		.lean();
+
+	bookings.sort((a, b) => {
+		let dateParts = a.date.split('/');
+		let dateParts2 = b.date.split('/');
+		let dateObject1 = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+		let dateObject2 = new Date(+dateParts2[2], dateParts2[1] - 1, +dateParts2[0]);
+		return dateObject2 - dateObject1;
+	});
 	ok200(res, bookings);
 }
 

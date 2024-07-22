@@ -36,7 +36,7 @@ const Workspace = () => {
 			<div className="flex justify-between items-center mb-5">
 				<div className="text-4xl font-bold">Workspaces</div>
 				<Button
-					onClick={() => navigate('addworkspace')}
+					onClick={() => navigate('add')}
 					className="bg-darkBlue border-0 rounded-md"
 					label="ADD WORKSPACE"
 				/>

@@ -1,17 +1,11 @@
-const { initializeApp } = require('firebase/app');
-const { getStorage } = require('firebase/storage');
-
-const firebaseConfig = {
-	apiKey: 'AIzaSyD6z4vduaKmQZHns15hmXMAuR3USJxv9J8',
-	authDomain: 'tryfcm-90140.firebaseapp.com',
-	projectId: 'tryfcm-90140',
+const admin = require('firebase-admin');
+const { initializeApp, cert } = require('firebase-admin/app');
+const { getStorage } = require('firebase-admin/storage');
+const serviceAccount = require('./google.json');
+const app = initializeApp({
+	credential: cert(serviceAccount),
 	storageBucket: 'tryfcm-90140.appspot.com',
-	messagingSenderId: '648083716332',
-	appId: '1:648083716332:web:cc2cf41a27d6ee462ccdc9',
-	measurementId: 'G-PTD65F0N8N',
-};
-
-const firebaseApp = initializeApp(firebaseConfig);
-const storage = getStorage(firebaseApp);
-
-module.exports = { storage };
+});
+const storage = getStorage(app).bucket();
+const message = admin.messaging();
+module.exports = { storage, message };

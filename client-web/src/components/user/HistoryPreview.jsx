@@ -1,8 +1,7 @@
+/* eslint-disable react/prop-types */
 import { Dialog } from 'primereact/dialog';
-import { useRef } from 'react';
 
-function HistoryPreview({ onClose, workspace, room, date, from, to, address, amount, amenities, qty }) {
-	console.log(amenities);
+function HistoryPreview({ onClose, workspace, room, date, from, to, address, amount, amenities }) {
 	const headerElement = (
 		<div>
 			<div className="text-3xl font-bold flex justify-center text-darkBlue">Details</div>
@@ -44,23 +43,19 @@ function HistoryPreview({ onClose, workspace, room, date, from, to, address, amo
 						<div className="ms-2 mt-2 font-xl font-semibold text-darkBlue">Amount:</div>
 						<div className="ms-2 mt-2">{amount}$</div>
 					</div>
-					<div className="flex">
-						<div className="ms-2 mt-2 font-xl font-semibold text-darkBlue">Amenities used:</div>
-						<div className="ms-2 mt-2">Projector - 1</div>
-					</div>
 
-					{/* {amenities.length > 0 && (
+					{amenities.length > 0 && (
 						<div>
 							<div className="ms-2 mt-3 font-xl font-semibold text-darkBlue">Amenitiess used:</div>
-							<ol className="custom ms-10 mt-2">
+							<ol className="ms-10 mt-2 list-decimal">
 								{amenities.map((ele, index) => (
 									<li key={index} className="">
-										{ele}
+										{ele.id.label} - x{ele.quantity}
 									</li>
 								))}
 							</ol>
 						</div>
-					)} */}
+					)}
 				</div>
 			</Dialog>
 		</>

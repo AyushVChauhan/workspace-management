@@ -40,10 +40,6 @@ function History() {
 			icon: <FaEye className="text-darkBlue" size={20} />,
 			onClick: (e) => {
 				setPreview(true);
-				console.log(e);
-				const amenities = e.amenities.map((ele) => ele.label);
-				console.log(amenities);
-				const qty = e.amenities.map((ele) => ele.qty);
 				setPreviewData({
 					workspace: e.workspace_id.name,
 					date: e.date,
@@ -52,8 +48,7 @@ function History() {
 					to: e.timing.to,
 					address: e.workspace_id.address,
 					amount: e.amount,
-					amenities: amenities,
-					qty: qty,
+					amenities: e.amenities,
 				});
 			},
 		},
