@@ -107,8 +107,37 @@ distinct roles for users and admins.
     Open your browser and go to http://localhost:5173
     ```
 
-## Usage
+# Usage
 
-### Admin
+## Admin
+### Dashboard
+![admin-1](https://github.com/user-attachments/assets/67b1fe40-eeb6-476d-8b44-b0a536381a3f)
+### Workspaces
+![admin-2](https://github.com/user-attachments/assets/05173bd2-1669-4bc7-b796-8aec6c3760c4)
+![admin-3](https://github.com/user-attachments/assets/ff8f72fa-829a-4373-b232-c714132b9d53)
+![admin-7](https://github.com/user-attachments/assets/6c3686f8-19bc-4350-be7a-f48777ec89ce)
+![admin-8](https://github.com/user-attachments/assets/cc05d327-b217-4046-9655-53b9c1133eb8)
 
-### User
+### Insights
+![admin-4](https://github.com/user-attachments/assets/85316c0d-39c1-4c89-b824-c7b3af614cc0)
+### Room Status
+![admin-5](https://github.com/user-attachments/assets/3e9090a5-8703-435c-8a36-71f9f0d25728)
+![admin-10](https://github.com/user-attachments/assets/9ca08449-9473-473b-b4b0-14f26279062f)
+### User Bookings
+![admin-6](https://github.com/user-attachments/assets/1fdfef4e-8ddd-4ebc-8e50-8cd39c65c79c)
+
+## User
+### Login
+![1](https://github.com/user-attachments/assets/a0fae06d-2305-4958-8546-d4e80c88098b)
+### Register
+![2](https://github.com/user-attachments/assets/ef59944e-fdee-4d50-8207-6a6044860d1e)
+### Home
+![3](https://github.com/user-attachments/assets/bef78be0-3485-4053-984f-aacb86eebff7)
+### Booking
+![4](https://github.com/user-attachments/assets/234cca98-08d4-40f4-8955-1ed1db330175)
+![5](https://github.com/user-attachments/assets/dd1fdcdb-de06-4132-a990-7c868fd9035f)
+![6](https://github.com/user-attachments/assets/7c0df838-c285-4d39-9c7c-d1136a6e09d7)
+![7](https://github.com/user-attachments/assets/700e7fc9-b503-4f06-b5b4-13f4096777ea)
+### History
+![8](https://github.com/user-attachments/assets/ad7f1549-0bed-4e23-a2e7-829e18045b30)
+![9](https://github.com/user-attachments/assets/3ab663cd-0607-40c2-bf03-a80b88612065)
